@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cuit.study.dao.StudyCenterMapper">
+
+
+
+    <select id="getSelectCourseByUserId" resultType="java.util.HashMap">
+        SELECT
+            u.userName '当前用户',
+            c.courseName '课程名称',
+            c.content '课程简介',
+            c.teacherName '教师名称',
+            c.selectNum as '选该课的人数',
+            c.uploadtime '开课时间',
+            sc.note '课程笔记'
+        FROM
+            `user` u,
+            selectcourses sc,
+            course c
+        WHERE
+            u.userID = sc.userID
+        AND c.courseID = sc.courseID
+        AND sc.`select`= 1
+        AND u.userID= #{userId}
+    </select>
+
+    <select id="getCourseInfoByCourseId" resultType="course">
+        SELECT
+            c.courseID '课程ID',
+            c.courseName '课程名称',
+            m.categoryName '课程类别',
+            c.content '课程内容',
+            c.teacherName '授课教师',
+            c.selectNum '选课人数',
+            c.uploadtime '课程上传时间'
+        FROM
+            course c,
+            category m
+        WHERE
+            c.categoryid = m.categoryid
+        AND
+            c.courseID= #{courseId};
+    </select>
+
+    <insert id="addCourse" statementType="PREPARED">
+        INSERT INTO selectcourses (userID, courseID, `select`)
+        VALUES
+            (
+                (
+                    SELECT
+                        u.userID
+                    FROM
+                        `user` u
+                    WHERE
+                        u.userID = #{userId}
+                ),
+                (
+                    SELECT
+                        c.courseID
+                    FROM
+                        course c
+                    WHERE
+                        c.courseID = #{courseId}
+                ),
+                1
+            )
+    </insert>
+
+    <update id="removeCourse">
+        UPDATE selectcourses s
+        SET s.`select` = 0
+        WHERE
+            s.userID = #{userId}
+        AND s.courseID = #{courseId};
+    </update>
+
+
+
+</mapper>
