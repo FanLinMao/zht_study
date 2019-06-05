@@ -1,4 +1,6 @@
 $(function(){
+    var courseId = $("#courseId").val();
+
 	//导航栏页面间跳转
    $('ul > li').each(function (index) {
        if (index == 0){
@@ -31,4 +33,47 @@ $(function(){
            });
        }
    });
+   //发布评论
+   $("#releaseComment").click(function () {
+        var content = $("#text_comment").text();
+       $.ajax({
+           url: '/studyCenter/addComment',
+           type: 'post',
+           data: {courseId:courseId,
+               commentContent:content
+           },
+           success: function (data) {
+
+           },
+       });
+   });
+    //保存笔记
+    $("#releaseNote").click(function () {
+        var note = $("#text_note").text();
+        $.ajax({
+            url: '/studyCenter/addNote',
+            type: 'post',
+            data: {
+                courseId: courseId,
+                note: note
+            },
+            success: function (data) {
+
+            },
+        });
+    });
+    //选课
+    $("#btn_selectcourse").click(function () {
+        $.ajax({
+            url: '/studyCenter/addCourse',
+            type: 'post',
+            data: {
+                courseId: courseId
+            },
+            success: function (data) {
+
+            },
+        });
+    });
+
 })

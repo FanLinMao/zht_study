@@ -5,11 +5,16 @@ import cn.edu.cuit.study.common.MessageResult;
 import cn.edu.cuit.study.constant.ResponseCode;
 import cn.edu.cuit.study.entity.User;
 import cn.edu.cuit.study.service.StudyCenterService;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +23,7 @@ import java.util.Map;
  * @author: Flemming
  * @description: 学习中心模块控制层
  */
-@RestController
+@Controller
 @RequestMapping("/studycenter")
 public class StudyCenterController extends BaseController {
 
@@ -26,7 +31,17 @@ public class StudyCenterController extends BaseController {
     private StudyCenterService studyCenterService;
 
 
+    @GetMapping("/")
+    public String studyIndex(){
+        return "studyCenter";
+    }
+
+    /**
+     * 获取用户选课信息
+     * @return
+     */
     @GetMapping("/getSelectCourseInfo")
+    @ResponseBody
     public MessageResult getSelectCoursesInfo(){
         //获取到当前用户
         User user = getCurrentUser();
@@ -41,5 +56,68 @@ public class StudyCenterController extends BaseController {
         }
         return ms;
     }
+
+    /**
+     * 添加笔记
+     * @param courseId
+     * @param note
+     */
+    @PostMapping("/addNote")
+    @ResponseBody
+    public void addNote(String courseId,String note){
+        User currentUser = getCurrentUser();
+        try {
+            boolean success = studyCenterService.addCourseNote(Integer.valueOf(courseId), Integer.valueOf(currentUser.getUserID()), note);
+            responseResult(success, "保存成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 选课
+     * @param courseId
+     */
+    @PostMapping("/addCourse")
+    @ResponseBody
+    public void addCourse(String courseId){
+        User currentUser = getCurrentUser();
+        try {
+            boolean success = studyCenterService.addCourse(Integer.valueOf(courseId), Integer.valueOf(currentUser.getUserID()));
+            responseResult(success, "选课成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 添加评论
+     * @param courseId
+     * @param commentContent
+     */
+    @PostMapping("/addComment")
+    @ResponseBody
+    public void addComment(String courseId, String commentContent){
+        User currentUser = getCurrentUser();
+        try {
+            boolean success = studyCenterService.addCourseComment(Integer.valueOf(courseId), Integer.valueOf(currentUser.getUserID()), commentContent);
+            responseResult(success, "添加评论成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void responseResult(boolean success, String message) throws Exception {
+        getResponse().setCharacterEncoding("UTF-8");
+        getResponse().setContentType("application/json; charset=utf-8");
+        if (success){
+            getResponse().getWriter().write(message);
+        }else {
+            getResponse().getWriter().write("Excute failed.");
+        }
+    }
+
 
 }

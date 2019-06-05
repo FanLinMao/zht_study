@@ -7,6 +7,7 @@ import cn.edu.cuit.study.utils.HttpContextUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -25,6 +26,14 @@ public abstract class BaseController {
      */
     protected HttpServletRequest getRequest() {
         return HttpContextUtils.getHttpServletRequest();
+    }
+
+    /**
+     * 获取response
+     * @return
+     */
+    protected HttpServletResponse getResponse(){
+        return HttpContextUtils.getHttpServletResponse();
     }
 
     /**

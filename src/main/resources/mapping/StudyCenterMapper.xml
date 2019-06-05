@@ -39,7 +39,7 @@
         WHERE
             c.categoryid = m.categoryid
         AND
-            c.courseID= #{courseId};
+            c.courseID= #{courseId}
     </select>
 
     <insert id="addCourse" statementType="PREPARED">
@@ -71,9 +71,30 @@
         SET s.`select` = 0
         WHERE
             s.userID = #{userId}
-        AND s.courseID = #{courseId};
+        AND s.courseID = #{courseId}
     </update>
 
+    <update id="updateSelectCourseNumByCourseId">
+        UPDATE course c
+        SET c.selectNum = c.selectNum + 1
+        WHERE
+            c.courseID=#{courseId}
+    </update>
 
+    <select id="getSelectCourseNumByCourseId" parameterType="int" resultType="int">
+        SELECT c.selectNum
+        FROM course c
+        WHERE c.courseID = #{courseId}
+    </select>
+
+    <insert id="addCourseCommentByCourseIdAndUserId">
+        INSERT INTO review(courseid, userid, review, reviewtime)
+        VALUES (#{courseId}, #{userId}, #{content}, #{date})
+    </insert>
+
+    <insert id="addCourseNoteByCourseIdAndUserId">
+        INSERT INTO selectcourses(userID, courseID, note, notetime)
+        VALUES(#{userId}, #{courseId}, #{note}, #{date})
+    </insert>
 
 </mapper>
