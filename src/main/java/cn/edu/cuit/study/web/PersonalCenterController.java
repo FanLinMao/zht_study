@@ -9,23 +9,29 @@ import cn.edu.cuit.study.entity.Course;
 import cn.edu.cuit.study.entity.CourseDownload;
 import cn.edu.cuit.study.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.io.File;
 import java.util.List;
 
 /**
  * 个人中心
  * @author hl
  */
+@Controller
 @RequestMapping("/personal")
 public class PersonalCenterController extends BaseController {
 
     @Autowired
     PersonalCenterMapper pcm;
+
+    @RequestMapping("/index")
+    public String index(){
+        return "personal";
+    }
 
     @RequestMapping("/get/information")
     public String personalInformation(Model model) {
@@ -69,9 +75,13 @@ public class PersonalCenterController extends BaseController {
     }
 
 
-    @RequestMapping("/download/{courseId}")
-    public String downloadCourse(@PathVariable(value = "courseId") int courseId, Model model){
-        CourseDownload courseDownload = pcm.queryCourseDownload(courseId);
-        return FilePath.FILE_PATH + File.separator + courseDownload.getDownloadUrl();
+    @RequestMapping("/download/{userId}")
+    public String downloadCourse(@PathVariable(value = "userId") int userId, Model model){
+        if (getCookieValue(SessionNames.SESSION_KEY_USER) == null){
+            return "login";
+        }
+        List<CourseDownload> courseDownloads = pcm.queryCourseDownload(userId);
+        model.addAttribute("courseDownloads",courseDownloads);
+        return "download";
     }
 }
