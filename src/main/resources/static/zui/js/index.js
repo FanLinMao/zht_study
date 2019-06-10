@@ -37,7 +37,7 @@ $(function(){
    $("#releaseComment").click(function () {
         var content = $("#text_comment").text();
        $.ajax({
-           url: '/studyCenter/addComment',
+           url: '/studycenter/addComment',
            type: 'post',
            data: {courseId:courseId,
                commentContent:content
@@ -51,21 +51,21 @@ $(function(){
     $("#releaseNote").click(function () {
         var note = $("#text_note").text();
         $.ajax({
-            url: '/studyCenter/addNote',
+            url: '/studycenter/addNote',
             type: 'post',
             data: {
-                courseId: courseId,
+                courseId: "1003",
                 note: note
             },
             success: function (data) {
-
+                alert(data)
             },
         });
     });
     //选课
     $("#btn_selectcourse").click(function () {
         $.ajax({
-            url: '/studyCenter/addCourse',
+            url: '/studycenter/addCourse',
             type: 'post',
             data: {
                 courseId: courseId

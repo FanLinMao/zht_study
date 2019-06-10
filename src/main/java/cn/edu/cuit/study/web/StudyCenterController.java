@@ -8,10 +8,7 @@ import cn.edu.cuit.study.service.StudyCenterService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,7 +28,7 @@ public class StudyCenterController extends BaseController {
     private StudyCenterService studyCenterService;
 
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String studyIndex(){
         return "studyCenter";
     }
@@ -65,9 +62,9 @@ public class StudyCenterController extends BaseController {
     @PostMapping("/addNote")
     @ResponseBody
     public void addNote(String courseId,String note){
-        User currentUser = getCurrentUser();
+        //User currentUser = getCurrentUser();
         try {
-            boolean success = studyCenterService.addCourseNote(Integer.valueOf(courseId), Integer.valueOf(currentUser.getUserID()), note);
+            boolean success = studyCenterService.addCourseNote(Integer.parseInt(courseId), Integer.parseInt("20001"), note);
             responseResult(success, "保存成功！");
         } catch (Exception e) {
             e.printStackTrace();
