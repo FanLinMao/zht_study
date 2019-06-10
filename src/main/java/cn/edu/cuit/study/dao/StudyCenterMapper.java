@@ -18,7 +18,7 @@ public interface StudyCenterMapper {
      * 根据用户ID，查看用户的选课信息
      * @param userId
      * @return 选课信息
-     * @throws Exception
+     *
      */
     public List<Map> getSelectCourseByUserId(int userId);
 
@@ -26,7 +26,7 @@ public interface StudyCenterMapper {
      * 根据课程ID，查看该课程信息
      * @param courseId
      * @return
-     * @throws Exception
+     *
      */
     public Course getCourseInfoByCourseId(int courseId);
 
@@ -35,7 +35,7 @@ public interface StudyCenterMapper {
      * @param courseId
      * @param userId
      * @return
-     * @throws Exception
+     *
      */
     public int addCourse(int courseId, int userId);
 
@@ -44,10 +44,42 @@ public interface StudyCenterMapper {
      * @param courseId
      * @param userId
      * @return
-     * @throws Exception
+     *
      */
     public int removeCourse(int courseId, int userId);
 
+    /**
+     * 修改选课的人数
+     * @param courseId
+     * @return
+     */
+    public int updateSelectCourseNumByCourseId(int courseId);
 
+    /**
+     * 根据课程ID获取选课的人数
+     * @param courseId
+     * @return
+     */
+    public int getSelectCourseNumByCourseId(int courseId);
+
+    /**
+     * 根据用户ID和课程ID，添加用户选择课程的评论
+     * @param courseId
+     * @param userId
+     * @param content
+     * @param date
+     * @return
+     */
+    public int addCourseCommentByCourseIdAndUserId(int courseId, int userId, String content, String date);
+
+    /**
+     * 根据用户ID和课程ID，添加用户选择课程的笔记
+     * @param courseId
+     * @param userId
+     * @param note
+     * @param date
+     * @return
+     */
+    public int addCourseNoteByCourseIdAndUserId(int courseId, int userId, String note, String date);
 
 }

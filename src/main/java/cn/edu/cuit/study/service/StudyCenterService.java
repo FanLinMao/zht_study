@@ -46,5 +46,35 @@ public interface StudyCenterService {
      */
     public boolean removeCourse(int courseId, int userId) throws Exception;
 
+    /**
+     * 添加 用户选择的课程笔记
+     * @param courseId
+     * @param userId
+     * @param note
+     * @return
+     * @throws Exception
+     */
+    public boolean addCourseNote(int courseId, int userId, String note) throws Exception;
+
+    /**
+     * 插入 当前用户对选择课程的评论
+     * @param courseId
+     * @param userId
+     * @param content
+     * @return
+     * @throws Exception
+     */
+    public boolean addCourseComment(int courseId, int userId, String content) throws Exception;
+
+    /**
+     * 根据课程ID，获取选课当前课程的人数
+     * @param courseId
+     * @return
+     * @throws Exception
+     */
+    public int getSelectCourseCounts(int courseId) throws Exception;
+
+
+
 
 }
