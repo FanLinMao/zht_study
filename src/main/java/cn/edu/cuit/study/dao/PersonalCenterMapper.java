@@ -46,12 +46,12 @@ public interface PersonalCenterMapper {
      * @param courseId 课程编号
      * @return 选课信息
      */
-    Map getSelectInformation(int courseId);
+    List<Map> getSelectInformation(int courseId);
 
     /**
      * 查询下载链接
-     * @param courseId 课程编号
+     * @param userId 用户编号
      * @return 下载地址
      */
-    CourseDownload queryCourseDownload(int courseId);
+     List<CourseDownload> queryCourseDownload(int userId);
 }

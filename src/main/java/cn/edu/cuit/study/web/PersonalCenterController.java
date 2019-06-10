@@ -27,6 +27,11 @@ public class PersonalCenterController extends BaseController {
     @Autowired
     PersonalCenterMapper pcm;
 
+    @RequestMapping("/index")
+    public String index(){
+        return "personal";
+    }
+
     @RequestMapping("/get/information")
     public String personalInformation(Model model) {
         String cookieValue = getCookieValue(SessionNames.SESSION_KEY_USER);
@@ -69,9 +74,13 @@ public class PersonalCenterController extends BaseController {
     }
 
 
-    @RequestMapping("/download/{courseId}")
-    public String downloadCourse(@PathVariable(value = "courseId") int courseId, Model model){
-        CourseDownload courseDownload = pcm.queryCourseDownload(courseId);
-        return FilePath.FILE_PATH + File.separator + courseDownload.getDownloadUrl();
+    @RequestMapping("/download/{userId}")
+    public String downloadCourse(@PathVariable(value = "userId") int userId, Model model){
+        if (getCookieValue(SessionNames.SESSION_KEY_USER) == null){
+            return "login";
+        }
+        List<CourseDownload> courseDownloads = pcm.queryCourseDownload(userId);
+        model.addAttribute("courseDownloads",courseDownloads);
+        return "download";
     }
 }
