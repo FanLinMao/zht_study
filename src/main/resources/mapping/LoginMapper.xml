@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cuit.study.dao.LoginMapper">
+
+    <select id="Login2" resultType="cn.edu.cuit.study.entity.User">
+        SELECT
+            userID,userName,password,gender,birth,phone,role,head
+        FROM
+            user
+        WHERE
+            phone = #{phone}
+    </select>
+
+    <insert id="Register" parameterType="cn.edu.cuit.study.entity.User">
+        INSERT INTO user (userID,userName,password,gender,birth,phone,role,head)
+        VALUES (#{userID},#{userName},#{password},#{gender},#{birth},#{phone},#{role},#{head})
+    </insert>
+
+</mapper>

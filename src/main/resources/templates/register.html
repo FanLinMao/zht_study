@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>新用户注册</title>
+
+    <link href="/static/css/loginreg.css" rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" href="/static/zui/css/zui.min.css"/>
+    <link href="/static/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+<h1>智慧通教学平台</h1>
+<div class="regrow ">
+    <!-- Begin Form -->
+    <form name="form2" id="regform" accept-charset="utf-8" action="/addregister" onsubmit="return checkRegister()" method="post">
+        <div><h2>智慧通教学平台-新用户注册</h2></div>
+        <div><hr/></div>
+        <table  align="center">
+            <tr>
+                <td>用户名</td>
+                <td>
+                    <input id="userName" name="userName" type="text" data-toggle="name" class="form-control" onkeyup="validate_name()"/>
+                </td>
+                <td><span id="namehint"></span></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td>
+                    <input id="password" name="password" type="password" data-toggle="password" class="form-control" onkeyup="validate_paw()"/>
+                </td>
+                <td><span id="pwd"></span></td>
+            </tr>
+            <tr>
+                <td>确认密码</td>
+                <td>
+                    <input id="password2" name="paw" type="password" data-toggle="repwa" class="form-control" onkeyup="validate()"/>
+                </td>
+                <td><span id="tishi"></span></td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>
+                    <label class="radio-inline">
+                        <input  type="radio" name="gender" value="男"/> 男
+                    </label>
+                    <label class="radio-inline">
+                        <input  type="radio" name="gender" value="女"/> 女
+                    </label>
+                </td>
+                <td><span id="genderhint"></span></td>
+            </tr>
+            <tr>
+                <td>出生日期</td>
+                <td>
+                    <div class="input-group date form-date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                        <input name="birth" class="form-control" data-toggle="date" size="16" type="text" value="" readonly=""/>
+                        <span class="input-group-addon"><span class="icon-remove"></span></span>
+                        <span class="input-group-addon"><span class="icon-calendar"></span></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>电话号码</td>
+                <td>
+                    <input id="phone" name="phone" type="text" data-toggle="phone" class="form-control" onkeyup="validate_phone()"/>
+                </td>
+                <td><span id="phonehint"></span></td>
+            </tr>
+
+        </table>
+        <div><hr/></div>
+        <div style="text-align:center">
+            <button id="button" type="submit">提交</button>
+
+            <button type="reset">重置</button>
+            <a href="/login.html">返回登录</a>
+        </div>
+    </form>
+    <!-- End Form -->
+</div>
+
+
+</body>
+<script type="text/javascript" src="/static/zui/js/jquery-1.11.0.js" charset="UTF-8"></script>
+<script src="/static/zui/js/zui.min.js"></script>
+<script src="/static/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+<script src="/static/js/loginreg.js"></script>
+
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/static/zui/css/zui.min.css"/>
+    <link rel="stylesheet" href="/static/zui/css/zui-theme.css"/>
+    <link rel="stylesheet" href="/static/css/loginreg.css"/>
+
+    <script src="/static/zui/js/jquery-1.11.0.js"></script>
+    <script src="/static/zui/js/zui.min.js"></script>
+    <script src="/static/js/loginreg.js"></script>
+    <title>登录</title>
+
+</head>
+
+<body>
+<h1>智慧通学习平台</h1>
+<div class="loginrow ">
+    <!--form starts here -->
+    <form id="loginform" action="/loginPage"  onsubmit="return checklogin()" method="post" >
+        <div class="input-control has-icon-left" style="width: 100%">
+            <input id="phone"  name="phone" type="text" class="form-control" placeholder="用户名"/>
+            <label for="phone" class="input-control-icon-left"><i class="icon icon-user "></i></label>
+        </div>
+        <div style="height: 30px"><span th:text="${error}"></span></div>
+        <div class="input-control has-icon-left" style="width:100%">
+            <input id="password" name="password" type="password" class="form-control" placeholder="密码"/>
+            <label for="password" class="input-control-icon-left"><i class="icon icon-key"></i></label>
+        </div>
+
+        <div style="height: 30px"><span th:text="${error1}"></span></div>
+        <div class="input-control has-icon-left" style="width: 60%">
+            <input id="authcode" name="authcode" type="text" class="form-control" placeholder="验证码"/>
+            <label for="authcode" class="input-control-icon-left"><i class="icon icon-key "></i></label>
+            <span><img src="/getAuthCode"/></span>
+        </div>
+
+
+        <div class="loginrow-bot">
+            <input type="submit"  value="登录"/>
+            <a href="/register.html" >新用户注册</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

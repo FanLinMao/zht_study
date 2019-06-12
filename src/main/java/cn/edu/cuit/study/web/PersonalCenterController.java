@@ -2,7 +2,6 @@ package cn.edu.cuit.study.web;
 
 
 import cn.edu.cuit.study.common.BaseController;
-import cn.edu.cuit.study.constant.FilePath;
 import cn.edu.cuit.study.constant.SessionNames;
 import cn.edu.cuit.study.dao.PersonalCenterMapper;
 import cn.edu.cuit.study.entity.Course;

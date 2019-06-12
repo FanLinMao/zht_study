@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: Flemming
  * @description:
  */
+
 @SpringBootApplication
 @MapperScan("cn.edu.cuit.study.dao")
 public class ZhtStudyApplication {

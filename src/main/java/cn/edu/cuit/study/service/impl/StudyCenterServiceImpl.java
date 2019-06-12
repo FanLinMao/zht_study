@@ -23,7 +23,7 @@ public class StudyCenterServiceImpl implements StudyCenterService {
     @Autowired
     private StudyCenterMapper studyCenterMapper;
 
-    @Override
+
     public List<Map> getSelectCourseByUserId(int userId) throws Exception {
         return studyCenterMapper.getSelectCourseByUserId(userId);
     }
