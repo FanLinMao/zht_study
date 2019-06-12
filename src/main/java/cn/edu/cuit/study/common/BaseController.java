@@ -30,9 +30,10 @@ public abstract class BaseController {
 
     /**
      * 获取response
+     *
      * @return
      */
-    protected HttpServletResponse getResponse(){
+    protected HttpServletResponse getResponse() {
         return HttpContextUtils.getHttpServletResponse();
     }
 
@@ -74,9 +75,11 @@ public abstract class BaseController {
      */
     protected String getCookieValue(String key) {
         Cookie[] cookies = getRequest().getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(key)) {
-                return cookie.getValue();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(key)) {
+                    return cookie.getValue();
+                }
             }
         }
         return "";
