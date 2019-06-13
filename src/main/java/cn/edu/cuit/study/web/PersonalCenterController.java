@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -25,7 +26,8 @@ public class PersonalCenterController extends BaseController {
     PersonalCenterMapper pcm;
 
     @RequestMapping("/index")
-    public String index(@RequestParam(value = "userId")String userId,Model model,@CookieValue("sessionId")String sessionId){
+    public String index(Model model, HttpServletRequest request){
+        String sessionId = getCookieValue("sessionId");
         String[] split = sessionId.split("-");
         model.addAttribute("userId",split[1]);
         model.addAttribute("userName",split[0]);
@@ -38,7 +40,8 @@ public class PersonalCenterController extends BaseController {
 
     @RequestMapping(value = "/get/userInform",method = RequestMethod.GET)
     @ResponseBody
-    public Result<User> personalInformation(@RequestParam(value = "userId")int userId,@CookieValue("sessionId")String sessionId) {
+    public Result<User> personalInformation(@RequestParam(value = "userId")int userId) {
+        String sessionId = getCookieValue("sessionId");
         if ("".equals(sessionId)){
             return new Result<>(false,"请选登录");
         }
@@ -48,7 +51,8 @@ public class PersonalCenterController extends BaseController {
 
     @RequestMapping(value = "/update/userInform", method = RequestMethod.POST)
     @ResponseBody
-    public Result updatePersonalInformation(@CookieValue("sessionId")String sessionId,User user, Model model) {
+    public Result updatePersonalInformation(User user, Model model) {
+        String sessionId = getCookieValue("sessionId");
         if ("".equals(sessionId)) {
             return new Result<>(false,"请先登录");
         }
@@ -62,7 +66,8 @@ public class PersonalCenterController extends BaseController {
     }
 
     @RequestMapping("/get/Course")
-    public Result<List> getCourse(@CookieValue("sessionId")String sessionId,@RequestParam(value = "userId")int userId,Model model) {
+    public Result<List> getCourse(@RequestParam(value = "userId")int userId,Model model) {
+        String sessionId = getCookieValue("sessionId");
         if ("".equals(sessionId)) {
             return new Result<>(false,"请先登录");
         }

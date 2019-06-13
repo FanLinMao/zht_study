@@ -56,13 +56,13 @@ public class LoginController extends BaseController {
                     String uuid = user.getUserName() + "-" + user.getUserID();
                     Cookie sessionId = new Cookie("sessionId", uuid );
                     response.addCookie(sessionId);
-                    return "login/user";
+                    return "user";
                 } else {
                     model.addAttribute("admin", user);
                     String uuid = user.getUserName() + "-" + user.getUserID();
                     Cookie sessionId = new Cookie("sessionId", uuid );
                     response.addCookie(sessionId);
-                    return "login/admin";
+                    return "admin";
                 }
             } else {
                 model.addAttribute("error1", "密码错误!");
