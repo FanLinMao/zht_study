@@ -3,21 +3,29 @@
 <mapper namespace="cn.edu.cuit.study.dao.PersonalCenterMapper">
 
     <select id="getUser" resultType="User">
+        select userId,userName,gender,birth,phone from user where userId = #{userId};
     </select>
 
     <update id="updateByUser" parameterType="user">
+        update user set
+            userName=#{user.userName},
+            gender=#{user.gender},
+            birth=#{user.birth},
+            phone=#{user.phone};
     </update>
 
-    <select id="getAllCourse" resultType="Course"></select>
-
-    <select id="findByIdCourse" parameterType="int" resultType="Course">
+    <select id="getAllCourse" resultType="Course">
+        select * from
+         (select couseId from selectcourses where userId = #{userId}) a,
+          course b where a.couseId = b.courseId;
     </select>
 
-    <select id="getSelectInformation" parameterType="int" resultType="map"></select>
+    <select id="findByIdCourse" parameterType="int" resultType="Course">
+        select * from course where courseId = #{courseId};
+    </select>
 
-
-    <select id="queryCourseDownload" parameterType="int" resultType="CourseDownload"></select>
-
-
+    <select id="getSelectInformation" parameterType="int" resultType="map">
+        select * from selectcourses where userId = #{userId};
+    </select>
 
 </mapper>

@@ -2,6 +2,8 @@ new Vue({
     el: "#personal-container",
     data: function () {
         return {
+            userName:userName,
+            userId:userId,
             headUrl: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
             activeIndex: "1",
             activeIndex2: "1",
@@ -9,87 +11,87 @@ new Vue({
             man: "男",
             woman: "女",
             form: {
-                userName: "小明",
+                userName: userName,
                 gender: "男",
-                birth: new Date(),
+                birth: new Date("2019-06-12"),
                 phone: "12345678911"
             },
             imageUrl: "",
             dialogVisible: false,
             courses: [{
-                courseId: "",
-                courseName: "java",
+                courseId: "001",
+                courseName: "java实现权限管理（下）",
                 selectNumber: 54,
-                content: "阿斯顿发生啊手动阀手动阀手动阀",
-                url: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-                link: "https://www.baidu.com",
+                teacher:"moocer",
+                content: "简介：Java权限管理系列课程介绍如何使用SpringMVC+Spring来实现基于RBAC的权限管理系统。本套系列课程包括两门课程，本课程是第二门课，主要介绍权限管理系统控制层实现及优化。",
+                url: "http://localhost:8080/static/image/java_1_1.jpg",
+                link: "http://localhost:8080/studycenter/index?userId=001",
                 progress: "第一章"
             }, {
                 courseId: "",
-                courseName: "C++",
+                courseName: "C++远征之模板篇",
                 selectNumber: 32,
-                content: "爱上对方就按时灯笼裤飞机啊是快递放假咯",
-                url: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+                teacher:"james_yuan",
+                content: "简介：本课程将带领大家体会更为奇妙的C++，讲述了静态、友元、运算符重载的定义及使用方法，其中重点讲述函数模板、类模板以及标准模板库的相关知识，知识内容更重实用性，本门课程对于面向对象的语言的学习将大有裨益，所有知识均以实践的方式讲解到操作层面，力求即学即会。",
+                url: "http://localhost:8080/static/image/course_c++_1.jpg",
                 link: "https://www.baidu.com",
                 progress: "第二章"
             }, {
                 courseId: "",
-                courseName: "java",
+                courseName: "java实现权限管理（上）",
                 selectNumber: 54,
-                content: "阿斯顿发生啊手动阀手动阀手动阀",
-                url: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+                teacher:"moccer",
+                content: "简介：Java权限管理系列课程介绍如何使用SpringMVC+Spring来实现基于RBAC的权限管理系统。本套系列课程包括两门课程，本课程是第一门课，主要介绍什么是基于角色的访问控制（RBAC），以及数据访问层和服务层的实现。",
+                url: "http://localhost:8080/static/image/java_1_2.jpg",
                 link: "https://www.baidu.com",
                 progress: "第一章"
             }, {
                 courseId: "",
-                courseName: "C++",
+                courseName: "C++远征之多态篇",
                 selectNumber: 32,
-                content: "爱上对方就按时灯笼裤飞机啊是快递放假咯",
-                url: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+                teacher:"james_yuan",
+                content: "简介：本课程将带领大家体会面向对象三大特性中的多态特性，讲述了虚函数、抽象类和接口类等概念，以及多态的实现原理，课程的最后引入RTTI及异常处理，使整个多态篇更加完整，更具实战指导性，本门课程是C++远征课程的高潮和经典，对于面向对象的语言的学习将大有裨益。",
+                url: "http://localhost:8080/static/image/course_c++_2.jpg",
                 link: "https://www.baidu.com",
                 progress: "第二章"
             }, {
                 courseId: "",
-                courseName: "java",
+                courseName: "C++远征之继承篇",
                 selectNumber: 54,
-                content: "阿斯顿发生啊手动阀手动阀手动阀",
-                url: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+                teacher:"james_yuan",
+                content: "简介：本课程将带领大家体会C++面向对象三大特性中的继承特性，讲述了基类、派生类的概念，公有继承、保护继承和私有继承、多重继承及多继承，虚析构函数及虚继承的作用，理解课程内容对于面向对象的学习将大有裨益，所有知识均通过编码实践的方式讲解到操作层面，力求即学即会。",
+                url: "http://localhost:8080/static/image/course_c++_3.jpg",
                 link: "https://www.baidu.com",
                 progress: "第一章"
             }, {
                 courseId: "",
-                courseName: "C++",
+                courseName: "C++远征之起航篇",
                 selectNumber: 32,
-                content: "爱上对方就按时灯笼裤飞机啊是快递放假咯",
-                url: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
+                teacher:"james_yuan",
+                content: "简介：本教程是C++的初级教程，是在C语言基础上的一个延伸，讲述了包括新增数据类型、命名空间等内容，最后通过一个通俗易懂的例子将所述知识点融会贯通，以达到知识灵活运用，最终得以升华的目的。",
+                url: "http://localhost:8080/static/image/course_c++_4.jpg",
                 link: "https://www.baidu.com",
                 progress: "第二章"
             }],
             learningUrl: "https://search.bilibili.com/all?keyword=",
-            downloadData: [{
-                courseName: "java",
-                courseId: "11",
+            historyData: [{
+                courseName: "java实现权限管理（下）",
+                courseId: "001",
+                date:"一个小时前",
+                url:"http://localhost:8080/static/image/java_1_1.jpg",
                 progress: 50
             }, {
-                courseName: "C++",
-                courseId: "ss",
-                progress: 30
-            }, {
-                courseName: "java",
-                courseId: "sa",
-                progress: 70
-            }, {
-                courseName: "C++",
-                courseId: "123",
-                progress: 40
-            }, {
-                courseName: "java",
+                courseName: "C++远征之模板篇",
                 courseId: "002",
-                progress: 20
-            }, {
-                courseName: "C++",
-                courseId: "001",
+                date:"30分钟前",
+                url:"http://localhost:8080/static/image/course_c++_1.jpg",
                 progress: 30
+            }, {
+                courseName: "java实现权限管理（上）",
+                courseId: "003",
+                url:"http://localhost:8080/static/image/java_1_2.jpg",
+                date:"2019年5月22日",
+                progress: 70
             }]
         }
     },
