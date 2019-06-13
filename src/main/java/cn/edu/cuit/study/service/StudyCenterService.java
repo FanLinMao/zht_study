@@ -1,6 +1,7 @@
 package cn.edu.cuit.study.service;
 
 import cn.edu.cuit.study.entity.Course;
+import cn.edu.cuit.study.utils.PageBean;
 
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,14 @@ public interface StudyCenterService {
      * @throws Exception
      */
     public int getSelectCourseCounts(int courseId) throws Exception;
+
+    /**
+     * 根据课程ID查询 该课程的所有评论信息
+     * @param courseId
+     * @return
+     * @throws Exception
+     */
+    public PageBean<Map> getReviewsByPage(int courseId, int pageNo, int pageSize) throws Exception;
 
 
 

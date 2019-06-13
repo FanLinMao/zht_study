@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="../static/zui/css/zui.min.css" />
+    <link rel="stylesheet" href="../static/zui/css/zui.lite.min.css" />
+    <link rel="stylesheet" href="../static/zui/css/zui-theme.min.css" />
+    <link rel="stylesheet" href="../static/zui/lib/chosenicons/zui.chosenicons.min.css" />
+    <style type="text.css">
+        {
+            padding: 0px;
+            margin: 0px;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+
+        }
+        #top-bar{
+            position: relative;
+        }
+        #body-container{
+            position: relative;
+        }
+        #courseAll{
+            width: 80%;
+            height: 50%;
+            margin: 10px auto;
+            position: relative;
+            top: 25%;
+            text-align: center;
+            display: none;
+            z-index: 1;
+        }
+        #courseOne{
+            width: 80%;
+            height: 50%;
+            margin: 10px auto;
+            position: relative;
+            top: 25%;
+            text-align: center;
+            display: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+<div id="top-bar" style="width: 100%; height: 60px;">
+    <img src="../static/zui/img/study.png" style="width: 40px; height: 40px; max-width: 100%; max-height: 100%; margin-top: 9px; margin-left: 10%;"/>
+    <span style="font-family: '宋体';font-size: 24px;position: absolute;top: 12px;"><strong>智慧通学习平台</strong></span>
+    <span style="width: 30%;height: 30px;position: absolute;top: 12px;margin-left: 65%;">
+				<ol class="breadcrumb">
+				  <li><span>你好，<span th:text="${user.userName}"></span></span></li>
+				  <li><i class="icon icon-user"></i><a th:href="@{/personal/index}">个人中心</a></li>
+				  <li class="active"><i class="icon icon-off"></i><a th:href="@{/loginout}">退出</a></li>
+				</ol>
+
+  </span>
+    <span style="width:30%;height:30px;position: absolute;top:12px;margin-left:35%">
+    <div class="input-group">
+        <div class="input-control search-box search-box-circle has-icon-left has-icon-right search-example" id="searchbox">
+            <input id="inputSearch" type="search" class="form-control search-input" placeholder="搜索">
+            <label for="inputSearch" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+        </div>
+        <span class="input-group-btn">
+             <button class="btn btn-primary" type="button">搜索</button>
+        </span>
+    </div>
+    </span>
+</div>
+<div id="body-container" style="background: #EBF2F9;width: 100%;height: 85%;margin:0px auto;">
+    <ul class="nav nav-secondary nav-justified" style="position: relative;top: 20%;background:#ADD8E6;">
+        <li><a href="#"><strong>全部课程</strong></a></li>
+        <li><a href="#"><strong>Java</strong></a></li>
+        <li><a href="#"><strong>C</strong></a></li>
+        <li><a href="#"><strong>Python</strong></a></li>
+        <li><a href="#"><strong>Go</strong></a></li>
+        <li><a href="#"><strong>HTML</strong></a></li>
+        <li><a href="#"><strong>SQL</strong></a></li>
+        <li><a href="#"><strong>课程类七</strong></a></li>
+        <li><a href="#"><strong>课程类八</strong></a></li>
+        <li><a href="#"><strong>课程类九</strong></a></li>
+    </ul>
+    <div id="courseAll">
+        <div style="font-weight:900;width:100%;">
+            <div style="width:100%;float:left">
+                <div style="margin-left:30px;margin-top:30px;"><img src="images/书签黑.jpg" alt=""  />全部课程</div>
+                <div style="border-top:1px solid #E3E3E3;width:96%;margin-left:2%">
+
+                    <div class="cards cards-borderless">
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-lg-1">
+                            <a class="card" href="###">
+                                <img src="../static/image/java_1_1.jpg" alt="">
+                                <div class="caption">Java课程</div>
+                                <div class="card-heading"><strong>Java权限管理系统</strong></div>
+                                <div class="card-content text-muted">Java权限管理系统，了解一下</div>
+                            </a>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="courseOne">
+        <div style="font-weight:900;width:100%;">
+            <div style="width:100%;float:left">
+                <div style="margin-left:30px;margin-top:30px;"><img src="images/书签黑.jpg" alt="书签黑."  />HTML / CSS</div>
+                <div style="border-top:1px solid #E3E3E3;width:96%;margin-left:2%">
+
+
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习HTML.png" alt="学习HTML"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">即超文本标记语言（Hyper Text Markup Language）</div>
+
+                    </div>
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【学习HTML5】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习HTML5.png" alt="学习HTML5"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">HTML5是下一代HTML标准</div>
+
+                    </div>
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【学习CSS】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习CSS.png" alt="学习CSS"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">层叠式样表（Cascading StyleSheet）</div>
+
+                    </div>
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【学习CSS3】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习CSS3.png" alt="学习CSS3"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">CSS3 是最新的 CSS 标准</div>
+
+                    </div>
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【学习Bootstrap3】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习Bootstrap3.png" alt="学习Bootstrap3"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">Bootstrap3,来自 Twitter，是目前最受欢迎的前端框架。</div>
+
+                    </div>
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【学习Bootstrap4】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习Bootstrap4.png" alt="学习Bootstrap4"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">Bootstrap4 目前是 Bootstrap 的最新版本</div>
+
+                    </div>
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【学习Font Awesome】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习Font Awesome.png" alt="学习Font Awesome"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">Font Awesome 是一套绝佳的图标字体库和CSS框架</div>
+
+                    </div>
+
+                    <div style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left;">
+                        <div style="height:25px;">【学习Foundation】</div>
+
+                        <div style="margin:2px;float:left;width:20%;"><img src="images/学习Foundation.png" alt="学习Foundation"  /></div>
+                        <div style="float:left;font-size:12px;width:70%;margin-top:4px;color:#6C757C;">Foundation 用于开发响应式的 HTML, CSS and JavaScript 框架</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../static/zui/js/jquery-1.11.0.js" ></script>
+<script type="text/javascript" src="../static/zui/js/zui.min.js" ></script>
+<script type="text/javascript" src="../static/zui/js/zui.lite.min.js" ></script>
+<script type="text/javascript" src="../static/zui/lib/chosenicons/zui.chosenicons.min.js" ></script>
+
+<script>
+    $(function () {
+        $('#searchInputExample').searchBox({
+            escToClear: true, // 设置点击 ESC 键清空搜索框
+            onSearchChange: function(searchKey, isEmpty) {
+                console.log('搜索框文本变更：', searchKey);
+            }
+        });
+        $('.menu .nav').on('click', 'li:not(.nav-parent) > a', function() {
+            var $this = $(this);
+            $('.menu .nav .active').removeClass('active');
+            $this.closest('li').addClass('active');
+            $this.closest('.nav-parent').addClass('active');
+        });
+        $('.menu .nav').on('click', 'li:not(.nav-parent) > a', function() {
+            var $this = $(this);
+            $('.menu .nav .active').removeClass('active');
+            $this.closest('li').addClass('active');
+            $this.closest('.nav-parent').addClass('active');
+        });
+
+        //导航栏页面间跳转
+        $('ul > li').each(function (index) {
+            if (index == 0){
+                $(this).click(function () {
+                    $("ul > li").removeClass("active");
+                    $(this).addClass("active");
+
+
+                });
+            } else if (index == 1) {
+                $(this).click(function () {
+                    $("ul > li").removeClass("active");
+                    $(this).addClass("active");
+                    /*$("#wrap").hide();
+                    $("#courseNote").show();
+                    $("#courseComment").hide();
+                    $("#commentBox").hide();*/
+                });
+            } else if (index == 2) {
+                $(this).click(function () {
+                    $("ul > li").removeClass("active");
+                    $(this).addClass("active");
+                    /*$("#wrap").hide();
+                    $("#courseNote").hide();
+                    $("#courseComment").show();
+                    $("#commentBox").show();*/
+                });
+            }
+        });
+    })
+
+</script>
+</html>

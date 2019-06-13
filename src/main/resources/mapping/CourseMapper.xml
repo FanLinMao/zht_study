@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.cuit.study.dao.CourseMapper">
   <resultMap id="BaseResultMap" type="cn.edu.cuit.study.entity.Course">
-    <id column="courseID" jdbcType="INTEGER" property="courseid" />
-    <result column="courseName" jdbcType="VARCHAR" property="coursename" />
+    <id column="courseID" jdbcType="INTEGER" property="courseID" />
+    <result column="courseName" jdbcType="VARCHAR" property="courseName" />
     <result column="categoryid" jdbcType="INTEGER" property="categoryid" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="teacherName" jdbcType="VARCHAR" property="teachername" />
-    <result column="selectNum" jdbcType="INTEGER" property="selectnum" />
+    <result column="teacherName" jdbcType="VARCHAR" property="teacherName" />
+    <result column="selectNum" jdbcType="INTEGER" property="selectNum" />
     <result column="uploadtime" jdbcType="VARCHAR" property="uploadtime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -235,4 +235,13 @@
       uploadtime = #{uploadtime,jdbcType=VARCHAR}
     where courseID = #{courseid,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllCourse" resultMap="BaseResultMap">
+    select * from course;
+  </select>
+
+  <select id="selectCourseBySearch" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from course where courseName like '%'+${search}+'%'
+  </select>
+
 </mapper>

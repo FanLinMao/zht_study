@@ -5,6 +5,7 @@ import cn.edu.cuit.study.dao.StudyCenterMapper;
 import cn.edu.cuit.study.entity.Course;
 import cn.edu.cuit.study.service.StudyCenterService;
 import cn.edu.cuit.study.utils.DateUtils;
+import cn.edu.cuit.study.utils.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,4 +70,18 @@ public class StudyCenterServiceImpl implements StudyCenterService {
     public int getSelectCourseCounts(int courseId) throws Exception {
         return studyCenterMapper.getSelectCourseNumByCourseId(courseId);
     }
+
+    @Override
+    public PageBean<Map> getReviewsByPage(int courseId, int pageNo, int pageSize) throws Exception {
+        int count = studyCenterMapper.getReviewTotalPage(courseId);
+        //执行分页
+        List<Map> reviews = studyCenterMapper.getReviewsByCourseId(courseId, (pageNo-1)*pageSize, pageSize);
+        PageBean<Map> pageBean = new PageBean<Map>();
+        pageBean.setList(reviews);
+        pageBean.setPageNo(pageNo);
+        pageBean.setPageSize(pageSize);
+        pageBean.setTotalRecords(count);
+        return pageBean;
+    }
+
 }

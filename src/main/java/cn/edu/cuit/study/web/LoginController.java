@@ -39,7 +39,8 @@ public class LoginController extends BaseController {
         return "login/userinfo";
     }
 
-    @RequestMapping(value = "/loginPage", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/index.html", method = RequestMethod.POST)
     public String login(Model model, HttpServletRequest request, HttpServletResponse response) {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
@@ -56,7 +57,7 @@ public class LoginController extends BaseController {
                     String uuid = user.getUserName() + "-" + user.getUserID();
                     Cookie sessionId = new Cookie("sessionId", uuid );
                     response.addCookie(sessionId);
-                    return "user";
+                    return "index";
                 } else {
                     model.addAttribute("admin", user);
                     String uuid = user.getUserName() + "-" + user.getUserID();

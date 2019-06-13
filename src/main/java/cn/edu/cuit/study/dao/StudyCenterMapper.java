@@ -1,6 +1,8 @@
 package cn.edu.cuit.study.dao;
 
 import cn.edu.cuit.study.entity.Course;
+import cn.edu.cuit.study.utils.PageBean;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -70,7 +72,7 @@ public interface StudyCenterMapper {
      * @param date
      * @return
      */
-    public int addCourseCommentByCourseIdAndUserId(int courseId, int userId, String content, String date);
+    public int addCourseCommentByCourseIdAndUserId(@Param("courseId")int courseId, @Param("userId")int userId, @Param("content")String content, @Param("date")String date);
 
     /**
      * 根据用户ID和课程ID，添加用户选择课程的笔记
@@ -80,6 +82,21 @@ public interface StudyCenterMapper {
      * @param date
      * @return
      */
-    public int addCourseNoteByCourseIdAndUserId(int courseId, int userId, String note, String date);
+    public int addCourseNoteByCourseIdAndUserId(@Param("courseId") int courseId, @Param("userId")int userId, @Param("note")String note, @Param("date")String date);
+
+    /**
+     * 根据课程ID分页查询该课程的评论信息
+     * @param startNum 开始页
+     * @param pageSize 查询多少条
+     * @return
+     */
+    public List<Map> getReviewsByCourseId(@Param("courseId") int courseId, @Param("startNum") int startNum, @Param("pageSize") int pageSize);
+
+    /**
+     * 根据课程ID查询评论信息的总页数
+     * @param courseId
+     * @return
+     */
+    public int getReviewTotalPage(int courseId);
 
 }
