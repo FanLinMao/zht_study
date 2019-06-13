@@ -2,17 +2,14 @@ package cn.edu.cuit.study.web;
 
 
 import cn.edu.cuit.study.common.BaseController;
-import cn.edu.cuit.study.constant.SessionNames;
 import cn.edu.cuit.study.dao.PersonalCenterMapper;
+import cn.edu.cuit.study.dto.Result;
 import cn.edu.cuit.study.entity.Course;
-import cn.edu.cuit.study.entity.CourseDownload;
 import cn.edu.cuit.study.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,59 +25,49 @@ public class PersonalCenterController extends BaseController {
     PersonalCenterMapper pcm;
 
     @RequestMapping("/index")
-    public String index(){
+    public String index(@RequestParam(value = "userId")String userId,Model model,@CookieValue("sessionId")String sessionId){
+        String[] split = sessionId.split("-");
+        model.addAttribute("userId",split[1]);
+        model.addAttribute("userName",split[0]);
+        if ("".equals(sessionId)){
+            return "login";
+        }
         return "personal";
     }
 
-    @RequestMapping("/get/information")
-    public String personalInformation(Model model) {
-        String cookieValue = getCookieValue(SessionNames.SESSION_KEY_USER);
-        if (cookieValue == null) {
-            return "login";
+
+    @RequestMapping(value = "/get/userInform",method = RequestMethod.GET)
+    @ResponseBody
+    public Result<User> personalInformation(@RequestParam(value = "userId")int userId,@CookieValue("sessionId")String sessionId) {
+        if ("".equals(sessionId)){
+            return new Result<>(false,"请选登录");
         }
-        User user = pcm.getUser();
-        model.addAttribute("user", user);
-        return "information";
+        User user = pcm.getUser(userId);
+        return new Result<>(true,user);
     }
 
-    @RequestMapping(value = "/update/information", method = RequestMethod.POST)
-    public String updatePersonalInformation(User user, Model model) {
-        String cookieValue = getCookieValue(SessionNames.SESSION_KEY_USER);
-        if (cookieValue == null) {
-            return "login";
+    @RequestMapping(value = "/update/userInform", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updatePersonalInformation(@CookieValue("sessionId")String sessionId,User user, Model model) {
+        if ("".equals(sessionId)) {
+            return new Result<>(false,"请先登录");
         }
         int i = pcm.updateByUser(user);
+
         if (i > 0) {
-            model.addAttribute("user",user);
-            model.addAttribute("message","更新成功");
-            return "information";
+           return new Result<User>(true,"修改成功");
+        }else {
+           return new Result<User>(false,"修改失败");
         }
-        User oldUser = pcm.getUser();
-        model.addAttribute("user",oldUser);
-        model.addAttribute("message","更新失败");
-        return "information";
     }
 
     @RequestMapping("/get/Course")
-    public String getCourse(Model model) {
-        String cookieValue = getCookieValue(SessionNames.SESSION_KEY_USER);
-        if (cookieValue == null) {
-            return "login";
+    public Result<List> getCourse(@CookieValue("sessionId")String sessionId,@RequestParam(value = "userId")int userId,Model model) {
+        if ("".equals(sessionId)) {
+            return new Result<>(false,"请先登录");
         }
 
-        List<Course> allCourse = pcm.getAllCourse();
-        model.addAttribute("allCourse",allCourse);
-        return "course";
-    }
-
-
-    @RequestMapping("/download/{userId}")
-    public String downloadCourse(@PathVariable(value = "userId") int userId, Model model){
-        if (getCookieValue(SessionNames.SESSION_KEY_USER) == null){
-            return "login";
-        }
-        List<CourseDownload> courseDownloads = pcm.queryCourseDownload(userId);
-        model.addAttribute("courseDownloads",courseDownloads);
-        return "download";
+        List<Course> allCourse = pcm.getAllCourse(userId);
+        return new Result<>(true,allCourse);
     }
 }

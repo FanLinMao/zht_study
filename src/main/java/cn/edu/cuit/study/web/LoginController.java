@@ -10,9 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+
 import static cn.edu.cuit.study.constant.RandomCode.RanCode;
 
 /**
@@ -30,31 +34,38 @@ public class LoginController extends BaseController {
         return "login";
     }
 
-    @RequestMapping(value="/houtai")
-    public String selectuser() { return "login/userinfo";
+    @RequestMapping(value = "/houtai")
+    public String selectuser() {
+        return "login/userinfo";
     }
 
     @RequestMapping(value = "/loginPage", method = RequestMethod.POST)
-    public String login(Model model, HttpServletRequest request) {
+    public String login(Model model, HttpServletRequest request, HttpServletResponse response) {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         User user;
         user = LoginService.Login2(phone);
         if (user == null) {
-            model.addAttribute("error","该账户不存在！！");
+            model.addAttribute("error", "该账户不存在！！");
             return "login";
         } else {
-            if (user.getPassword().equals(password)){
+            if (user.getPassword().equals(password)) {
                 getSession().setAttribute(SessionNames.SESSION_KEY_USER, user);
-                if(user.getRole()!=1){
-                    model.addAttribute("user",user);
+                if (user.getRole() != 1) {
+                    model.addAttribute("user", user);
+                    String uuid = user.getUserName() + "-" + user.getUserID();
+                    Cookie sessionId = new Cookie("sessionId", uuid );
+                    response.addCookie(sessionId);
                     return "login/user";
-                }else{
-                    model.addAttribute("admin",user);
+                } else {
+                    model.addAttribute("admin", user);
+                    String uuid = user.getUserName() + "-" + user.getUserID();
+                    Cookie sessionId = new Cookie("sessionId", uuid );
+                    response.addCookie(sessionId);
                     return "login/admin";
                 }
-            }else{
-                model.addAttribute("error1","密码错误!");
+            } else {
+                model.addAttribute("error1", "密码错误!");
                 return "login";
             }
         }
@@ -66,7 +77,7 @@ public class LoginController extends BaseController {
     }
 
     @RequestMapping(value = "/addregister", method = RequestMethod.POST)
-    public String register(Model model, HttpServletRequest request){
+    public String register(Model model, HttpServletRequest request) {
         User user = new User();
         user.setUserName(request.getParameter("userName"));
         user.setPassword(request.getParameter("password"));
@@ -76,20 +87,21 @@ public class LoginController extends BaseController {
         user.setGender(request.getParameter("gender"));
         user.setUserID(RanCode());
         user.setPhone(request.getParameter("phone"));
-        Boolean result =  LoginService.Register(user);
+        Boolean result = LoginService.Register(user);
         if (result.equals(true)) {
-            model.addAttribute("user",user);
+            model.addAttribute("user", user);
             return "login/user";
         } else {
-            model.addAttribute("adderror","注册失败");
+            model.addAttribute("adderror", "注册失败");
             return "register";
         }
     }
+
     @RequestMapping("/getAuthCode")
-    public void getAuthCode(){
+    public void getAuthCode() {
         BufferedImage bufferedImage = AuthCode.getAuthImg(AuthCode.getAuthCode());
         try {
-            ImageIO.write(bufferedImage, "JPEG",getResponse().getOutputStream());
+            ImageIO.write(bufferedImage, "JPEG", getResponse().getOutputStream());
         } catch (Exception e) {
             e.printStackTrace();
         }

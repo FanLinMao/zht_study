@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="https://unpkg.com/element-ui@2.8.2/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="/static/css/personal.css">
-    <title>个人中心模块</title>
+    <title>智慧通在线学习系统-个人中心模块</title>
 </head>
 <body>
 <
 <div id="personal-container">
+    <input id="userId" type="hidden" th:value="${userId}"/>
+    <input id="userName" type="hidden" th:value="${userName}"/>
     <el-container>
         <el-header>
             <el-menu
@@ -18,25 +22,13 @@
                     @select="handleSelect"
                     active-text-color="#ffd04b">
                 <el-menu-item index="1">个人中心</el-menu-item>
-                <el-submenu index="2">
-                    <template slot="title">我的工作台</template>
-                    <el-menu-item index="2-1">选项1</el-menu-item>
-                    <el-menu-item index="2-2">选项2</el-menu-item>
-                    <el-menu-item index="2-3">选项3</el-menu-item>
-                    <el-submenu index="2-4">
-                        <template slot="title">选项4</template>
-                        <el-menu-item index="2-4-1">选项1</el-menu-item>
-                        <el-menu-item index="2-4-2">选项2</el-menu-item>
-                        <el-menu-item index="2-4-3">选项3</el-menu-item>
-                    </el-submenu>
-                </el-submenu>
-                <el-submenu index="3" style="padding: 0;float: right;">
-                    <template slot="title">小明</template>
-                    <el-menu-item index="4-1">选项一</el-menu-item>
-                    <el-menu-item index="4-2">选项二</el-menu-item>
+                <el-submenu index="2" style="padding: 0;float: right;">
+                    <template slot="title">{{userName}}</template>
+                    <el-menu-item index="2-1"><el-button @click="logout">等出</el-button></el-menu-item>
+                    <el-menu-item index="2-2"></el-menu-item>
                 </el-submenu>
 
-                <el-menu-item index="4" style="padding: 0;float: right;">
+                <el-menu-item index="3" style="padding: 0;float: right;">
                     <img class="headPortrait" :src="headUrl"/>
                 </el-menu-item>
             </el-menu>
@@ -47,27 +39,25 @@
                     <el-tab-pane label="用户基本信息" name="1">
                         <el-row :gutter="20">
                             <el-col :span="12">
-                                <el-form ref="form" :model="form" label-position="top" label-width="80px">
-                                    <el-form-item label="姓名:">
+                                <el-form ref="form" :model="form"  :rules="rules" label-position="top" label-width="80px">
+                                    <el-form-item label="姓名:" prop="userName">
                                         <el-input v-model="form.userName"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="性别:">
+                                    <el-form-item label="性别:" prop="gender">
                                         <el-radio-group v-model="form.gender">
                                             <el-radio :label="man">男</el-radio>
                                             <el-radio :label="woman">女</el-radio>
                                         </el-radio-group>
                                     </el-form-item>
-                                    <el-form-item label="生日:">
+                                    <el-form-item label="生日:" prop="birth">
                                         <el-date-picker v-model="form.birth" type="date"
                                                         placeholder="请选择生日"></el-date-picker>
                                     </el-form-item>
-                                    <el-form-item label="联系方式:">
-                                        <el-input type="number"
-                                                  oninput="if (value.length > 11) value = value.slice(0,11) "
-                                                  v-model="form.phone" clearable></el-input>
+                                    <el-form-item label="联系方式:" prop="phone">
+                                        <el-input v-model.number="form.phone" clearable></el-input>
                                     </el-form-item>
                                     <el-form-item>
-                                        <el-button type="primary" @click="dialogVisible = true">提交</el-button>
+                                        <el-button type="primary" @click="checkValidate('form')">提交</el-button>
                                         <el-dialog
                                                 title="提示"
                                                 :visible.sync="dialogVisible"
@@ -98,7 +88,7 @@
                         </el-row>
                     </el-tab-pane>
                     <el-tab-pane label="课程" name="2">
-                        <el-row :gutter="20" v-for="course in courses" style="margin-top: 20px">
+                        <el-row :gutter="20" v-for="course in pageCourse" style="margin-top: 20px">
                             <el-col :span="6">
                                 <el-card :body-style="{ padding: '0px' }">
                                     <img :src="course.url" class="image">
@@ -115,28 +105,48 @@
                                 <h3>{{ course.courseName }} <span class="link el-icon-reading">当前学习进度{{ course.progress }}</span>
                                 </h3>
                                 <div>
+                                    <h4>老师:{{ course.teacher}}</h4>
                                     <p>{{ course.content }}</p>
                                 </div>
                             </el-col>
                         </el-row>
+                        <el-pagination
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage"
+                                :page-size="pageSize"
+                                layout="prev, pager, next, jumper"
+                                :total="total">
+                        </el-pagination>
                     </el-tab-pane>
                     <el-tab-pane label="历史记录" name="3">
                         <template>
                             <el-table
-                                    :data="downloadData"
+                                    :data="historyData"
                                     border>
                                 <el-table-column
-                                        prop="courseName"
                                         label="课程名"
-                                        width="300"></el-table-column>
+                                        align="center"
+                                        padding="0"
+                                        :show-overflow-tooltip="true"
+                                        width="300">
+                                    <template slot-scope="scope">
+                                        <el-card :body-style="{ padding: '0px'}">
+                                            <img :src="scope.row.url" class="image">
+                                        </el-card>
+                                    </template>
+                                </el-table-column>
                                 <el-table-column
                                         label="学习进度"
-                                        width="500">
+                                        width="400">
                                     <template slot-scope="scope">
                                         <el-progress :text-inside="true" :stroke-width="18"
                                                      :percentage="scope.row.progress"></el-progress>
                                     </template>
                                 </el-table-column>
+                                <el-table-column
+                                        label="历史"
+                                        width="200"
+                                        prop="date"></el-table-column>
                                 <el-table-column
                                         label="操作"
                                         width="300">
@@ -159,5 +169,9 @@
 <script src="https://unpkg.com/vue@2.6.0/dist/vue.js"></script>
 <script src="https://unpkg.com/element-ui@2.8.2/lib/index.js"></script>
 <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+<script>
+    var userId = document.getElementById("userId").value;
+    var userName = document.getElementById("userName").value;
+</script>
 <script src="/static/js/personal.js"></script>
 </html>
