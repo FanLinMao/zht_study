@@ -30,7 +30,7 @@ public class StudyCenterServiceImpl implements StudyCenterService {
     }
 
     @Override
-    public Course getCourseInfoByCourseId(int courseId) throws Exception {
+    public Map getCourseInfoByCourseId(int courseId) throws Exception {
         return studyCenterMapper.getCourseInfoByCourseId(courseId);
     }
 

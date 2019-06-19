@@ -3,6 +3,7 @@ package cn.edu.cuit.study.web;
 import cn.edu.cuit.study.common.BaseController;
 import cn.edu.cuit.study.common.MessageResult;
 import cn.edu.cuit.study.constant.ResponseCode;
+import cn.edu.cuit.study.entity.Course;
 import cn.edu.cuit.study.entity.User;
 import cn.edu.cuit.study.service.StudyCenterService;
 import cn.edu.cuit.study.utils.PageBean;
@@ -47,7 +48,14 @@ public class StudyCenterController extends BaseController {
         String[] split = sessionId.split("-");
         model.addAttribute("userName",split[0]);
         model.addAttribute("userId",split[1]);
-        model.addAttribute("courseId",courseID);
+
+        try {
+            Map course = studyCenterService.getCourseInfoByCourseId(courseId);
+            model.addAttribute("courseinfo",course);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*model.addAttribute("courseId",courseID);*/
         return "studyCenter";
     }
 

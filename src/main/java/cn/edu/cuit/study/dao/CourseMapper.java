@@ -2,6 +2,8 @@ package cn.edu.cuit.study.dao;
 
 import cn.edu.cuit.study.entity.Course;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +26,5 @@ public interface CourseMapper {
 
     List<Course> selectAllCourse();
 
-    List<Course> selectCourseBySearch(String search);
+    List<Map> selectCourseBySearch(@Param("search") String search);
 }

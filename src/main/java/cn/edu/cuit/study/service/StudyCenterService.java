@@ -27,7 +27,7 @@ public interface StudyCenterService {
      * @return
      * @throws Exception
      */
-    public Course getCourseInfoByCourseId(int courseId) throws Exception;
+    public Map getCourseInfoByCourseId(int courseId) throws Exception;
 
     /**
      * 获取到课程ID和用户ID，执行选课操作

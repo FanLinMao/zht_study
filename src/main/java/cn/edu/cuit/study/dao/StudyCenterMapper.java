@@ -30,7 +30,7 @@ public interface StudyCenterMapper {
      * @return
      *
      */
-    public Course getCourseInfoByCourseId(int courseId);
+    public Map getCourseInfoByCourseId(int courseId);
 
     /**
      * 获取到课程ID和用户ID，执行选课操作

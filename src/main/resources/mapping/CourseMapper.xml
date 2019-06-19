@@ -240,8 +240,18 @@
     select * from course;
   </select>
 
-  <select id="selectCourseBySearch" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select * from course where courseName like '%'+${search}+'%'
+  <select id="selectCourseBySearch" parameterType="java.lang.String" resultType="map">
+    select c.courseID ,
+            c.courseName ,
+            m.categoryName ,
+            c.content ,
+            c.teacherName ,
+            c.selectNum ,
+            c.uploadtime
+    from course c, category m
+    where c.courseName
+    like '%${search}%'
+    and c.categoryid = m.categoryid
   </select>
 
 </mapper>

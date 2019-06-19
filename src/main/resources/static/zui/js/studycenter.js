@@ -1,5 +1,6 @@
 $(function(){
     var courseId = $("#courseId").val();
+    console.log(courseId);
 
 	//导航栏页面间跳转
    $('ul > li').each(function (index) {
@@ -55,7 +56,6 @@ $(function(){
         $.ajax({
             url: '/studycenter/addNote',
             type: 'post',
-            async: false,
             data: {
                 courseId: courseId,
                 note: note
@@ -107,7 +107,7 @@ $(function(){
         url: '/studycenter/getViews',
         type: 'get',
         data: {
-            courseId: 1001,
+            courseId: courseId,
             pageNo: 1
         },
         success: function (data) {

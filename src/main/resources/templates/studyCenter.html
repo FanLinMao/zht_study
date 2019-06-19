@@ -77,20 +77,21 @@
 			<br>
 			<br>-->
 			<div id="courseInfo" style="width: 100%;height: 50px;position: relative; top: 8%;">
-				<input type="hidden" id="courseId" name="courseId" th:value="${courseId}"/>
-				<span style="font-family: '微软雅黑';font-size: 30px;margin-left: 5%;">Java实战课程</span>
-				<span style="margin-left: 20%;">教师：XXX</span>
-				<span style="margin-left: 10%;">发布时间：2018-4-25</span>
-				<span style="margin-left: 20%;"><button id="btn_selectcourse" class="btn btn-success">选课</button></span>
+				<input type="hidden" id="courseId" th:value="${courseinfo['courseID']}" />
+				<span style="font-family: '微软雅黑';font-size: 30px;margin-left: 5%;" th:text="${courseinfo['courseName']}"></span>
+				<span style="margin-left: 10%;">课程类型：<span th:text="${courseinfo['categoryName']}"></span></span>
+				<span style="margin-left: 5%;">教师：<span th:text="${courseinfo['teacherName']}"></span></span>
+				<span style="margin-left: 5%;">发布时间：<span th:text="${courseinfo['uploadtime']}"></span></span>
+				<span style="margin-left: 10%;"><button id="btn_selectcourse" class="btn btn-success">选课</button></span>
 			</div>
 			
 			<div id="courseIntroduce" style="width: 100%;height: 10%;font-size: 16px;position: relative;top: 17%;">
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;J本课程。。。。。。</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${courseinfo['content']}"></span></p>
 			</div>
 			<ul class="nav nav-secondary nav-justified" style="position: relative;top: 20%;">
-				  <li class="active"><a href="#"><strong>课程视频</strong></a></li>
-				  <li><a href="#"><strong>课堂笔记</strong></a></li>
-				  <li><a href="#"><strong>课堂评论</strong></a></li>
+				  <li class="active"><a href="javascript:void(0)"><strong>课程视频</strong></a></li>
+				  <li><a href="javascript:void(0)"><strong>课堂笔记</strong></a></li>
+				  <li><a href="javascript:void(0)"><strong>课堂评论</strong></a></li>
 			</ul>
 			<!-- 课程视频 -->
 			<div id="wrap">
@@ -140,6 +141,6 @@
 				});
 			});
     </script>-->
-	<script type="text/javascript" src="../static/zui/js/studycenter.js" ></script>
+	<script th:inline="javascript" type="text/javascript" src="../static/zui/js/studycenter.js" ></script>
 
 </html>

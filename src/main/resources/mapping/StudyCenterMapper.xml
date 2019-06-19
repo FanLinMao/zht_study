@@ -24,7 +24,7 @@
         AND u.userID= #{userId}
     </select>
 
-    <select id="getCourseInfoByCourseId" resultType="course">
+    <select id="getCourseInfoByCourseId" resultType="java.util.HashMap">
         SELECT
             c.courseID ,
             c.courseName ,
