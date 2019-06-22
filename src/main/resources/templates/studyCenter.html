@@ -66,9 +66,9 @@
 			<span style="font-family: '宋体';font-size: 24px;position: absolute;top: 12px;"><strong>智慧通学习平台</strong></span>
 			<span style="width: 30%;height: 30px;position: absolute;top: 12px;margin-left: 65%;">
 				<ol class="breadcrumb">
-				  <li><span>你好，XXX</span></li>
-				  <li><i class="icon icon-user"></i><a href="your/url/">个人中心</a></li>
-				  <li class="active"><i class="icon icon-off"></i><a href="your/url/">退出</a></li>
+				  <li><span>你好，<span th:text="${userName}"></span></span></li>
+				  <li><i class="icon icon-user"></i><a th:href="@{/personal/index}">个人中心</a></li>
+				  <li class="active"><i class="icon icon-off"></i><a th:href="@{/loginout}">退出</a></li>
 				</ol>
 			</span>
 		</div>
@@ -77,20 +77,21 @@
 			<br>
 			<br>-->
 			<div id="courseInfo" style="width: 100%;height: 50px;position: relative; top: 8%;">
-				<input type="hidden" id="courseId" name="courseId" value=""/>
-				<span style="font-family: '微软雅黑';font-size: 30px;margin-left: 5%;">Java实战课程</span>
-				<span style="margin-left: 20%;">教师：XXX</span>
-				<span style="margin-left: 10%;">发布时间：2018-4-25</span>
-				<span style="margin-left: 20%;"><button id="btn_selectcourse" class="btn btn-success">选课</button></span>
+				<input type="hidden" id="courseId" th:value="${courseinfo['courseID']}" />
+				<span style="font-family: '微软雅黑';font-size: 30px;margin-left: 5%;" th:text="${courseinfo['courseName']}"></span>
+				<span style="margin-left: 10%;">课程类型：<span th:text="${courseinfo['categoryName']}"></span></span>
+				<span style="margin-left: 5%;">教师：<span th:text="${courseinfo['teacherName']}"></span></span>
+				<span style="margin-left: 5%;">发布时间：<span th:text="${courseinfo['uploadtime']}"></span></span>
+				<span style="margin-left: 10%;"><button id="btn_selectcourse" class="btn btn-success">选课</button></span>
 			</div>
 			
 			<div id="courseIntroduce" style="width: 100%;height: 10%;font-size: 16px;position: relative;top: 17%;">
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;J本课程。。。。。。</p>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${courseinfo['content']}"></span></p>
 			</div>
 			<ul class="nav nav-secondary nav-justified" style="position: relative;top: 20%;">
-				  <li class="active"><a href="#"><strong>课程视频</strong></a></li>
-				  <li><a href="#"><strong>课堂笔记</strong></a></li>
-				  <li><a href="#"><strong>课堂评论</strong></a></li>
+				  <li class="active"><a href="javascript:void(0)"><strong>课程视频</strong></a></li>
+				  <li><a href="javascript:void(0)"><strong>课堂笔记</strong></a></li>
+				  <li><a href="javascript:void(0)"><strong>课堂评论</strong></a></li>
 			</ul>
 			<!-- 课程视频 -->
 			<div id="wrap">
@@ -102,73 +103,15 @@
 			</div>
 			<!-- 课程笔记 -->
 			<div id="courseNote">
-				<textarea id="text_note" name="content" style="width:100%; height:300px;visibility:hidden;"></textarea>
-				<button id="releaseNote" class="btn btn-success" style="width: 100px; height: 40px;margin-top: 10px;">发表评论</button>
+				<textarea  name="content" style="width:100%; height:300px;"  id="text_note" class="tt"></textarea>
+				<button id="releaseNote" class="btn btn-success" style="width: 100px; height: 40px;margin-top: 10px;">保存笔记</button>
 			</div>
 			<!-- 课程评论 -->
 			<div id="courseComment">
-				<div class="comment">
-				  <a href="###" class="avatar">
-				    <i class="icon-user icon-2x"></i>
-				  </a>
-				  <div class="content">
-				    <div class="pull-right text-muted">2 个小时前</div>
-				    <div><a href="###"><strong>Catouse</strong></a> <span class="text-muted">回复</span> <a href="###">张士超</a></div>
-				    <div class="text">你到底把我家钥匙放哪里了...</div>
-				    <div class="actions">
-				      <a href="##">回复</a>
-				      <a href="##">编辑</a>
-				      <a href="##">删除</a>
-				    </div>
-				  </div>
-				</div>
-				
-				<div class="comment">
-				  <a href="###" class="avatar">
-				    <i class="icon-user icon-2x"></i>
-				  </a>
-				  <div class="content">
-				    <div class="pull-right text-muted">2 个小时前</div>
-				    <div><a href="###"><strong>Catouse</strong></a> <span class="text-muted">回复</span> <a href="###">张士超</a></div>
-				    <div class="text">你到底把我家钥匙放哪里了...</div>
-				    <div class="actions">
-				      <a href="##">回复</a>
-				      <a href="##">编辑</a>
-				      <a href="##">删除</a>
-				    </div>
-				  </div>
-				</div>
-				
-				<div class="comment">
-				  <a href="###" class="avatar">
-				    <i class="icon-user icon-2x"></i>
-				  </a>
-				  <div class="content">
-				    <div class="pull-right text-muted">2 个小时前</div>
-				    <div><a href="###"><strong>Catouse</strong></a> <span class="text-muted">回复</span> <a href="###">张士超</a></div>
-				    <div class="text">你到底把我家钥匙放哪里了...</div>
-				    <div class="actions">
-				      <a href="##">回复</a>
-				      <a href="##">编辑</a>
-				      <a href="##">删除</a>
-				    </div>
-				  </div>
-				</div>
-				
-				
-				<ul class="pager">
-				  <li class="previous"><a href="#">«</a></li>
-				  <li><a href="#">1</a></li>
-				  <li class="active"><a href="#">2</a></li>
-				  <li><a href="#">3</a></li>
-				  <li><a href="#">4</a></li>
-				  <li><a href="#">5</a></li>
-				  <li class="next"><a href="#">»</a></li>
-				</ul>
 				
 			</div>
 			<div id="commentBox">
-				<textarea id="text_comment" name="content" style="width:100%; height:300px;visibility:hidden;"></textarea>
+				<textarea  name="content" style="width:100%; height:300px;" id="text_comment" class="tt"></textarea>
 				<button id="releaseComment" class="btn btn-success" style="width: 100px; height: 40px;margin-top: 10px;">发表评论</button>
 			</div>
 			
@@ -186,14 +129,18 @@
 
     <script type="text/javascript" src="../static/zui/js/video.min.js"></script>
     <script type="text/javascript" src="../static/zui/js/zh-CN.js"></script>
-    <script type="text/javascript" src="../static/zui/js/index.js" ></script>
-    <script>
+
+    <!--<script>
     	var editor;
 			KindEditor.ready(function(K) {
 				editor = K.create('textarea[name="content"]', {
-					allowFileManager : true
+					allowFileManager : true,
+                    afterBlur:function(){
+                        this.sync();
+                    }
 				});
 			});
-    </script>
+    </script>-->
+	<script th:inline="javascript" type="text/javascript" src="../static/zui/js/studycenter.js" ></script>
 
 </html>

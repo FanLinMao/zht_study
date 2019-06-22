@@ -85,4 +85,12 @@ public abstract class BaseController {
         return "";
     }
 
+    protected void removeCookies(){
+        Cookie[] cookies = getRequest().getCookies();
+        for (Cookie cookie : cookies) {
+            cookie.setMaxAge(0);
+            getResponse().addCookie(cookie);
+        }
+    }
+
 }

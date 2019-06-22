@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import static cn.edu.cuit.study.constant.RandomCode.RanCode;
 
@@ -39,7 +42,8 @@ public class LoginController extends BaseController {
         return "login/userinfo";
     }
 
-    @RequestMapping(value = "/loginPage", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/verify", method = RequestMethod.POST)
     public String login(Model model, HttpServletRequest request, HttpServletResponse response) {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
@@ -50,13 +54,13 @@ public class LoginController extends BaseController {
             return "login";
         } else {
             if (user.getPassword().equals(password)) {
-                getSession().setAttribute(SessionNames.SESSION_KEY_USER, user);
+                getSession().setAttribute(SessionNames.SESSION_KEY_USER, user.getUserName());
                 if (user.getRole() != 1) {
                     model.addAttribute("user", user);
                     String uuid = user.getUserName() + "-" + user.getUserID();
                     Cookie sessionId = new Cookie("sessionId", uuid );
                     response.addCookie(sessionId);
-                    return "user";
+                    return "redirect:/index.html";
                 } else {
                     model.addAttribute("admin", user);
                     String uuid = user.getUserName() + "-" + user.getUserID();
@@ -97,6 +101,13 @@ public class LoginController extends BaseController {
             model.addAttribute("adderror", "注册失败");
             return "register";
         }
+    }
+
+    @RequestMapping("/loginout")
+    public String loginout(){
+        removeCookies();
+        getSession().removeAttribute(SessionNames.SESSION_KEY_USER);
+        return "redirect:/login.html";
     }
 
     @RequestMapping("/getAuthCode")
