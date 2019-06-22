@@ -3,7 +3,9 @@ package cn.edu.cuit.study.dao;
 import cn.edu.cuit.study.entity.Course;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CourseMapper {
 
     int deleteByPrimaryKey(Integer courseid);
