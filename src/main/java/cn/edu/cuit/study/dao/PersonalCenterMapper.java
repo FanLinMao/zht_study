@@ -1,6 +1,8 @@
 package cn.edu.cuit.study.dao;
 
 import cn.edu.cuit.study.entity.Course;
+import cn.edu.cuit.study.entity.History;
+import cn.edu.cuit.study.entity.Learning;
 import cn.edu.cuit.study.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -49,4 +51,19 @@ public interface PersonalCenterMapper {
      */
     List<Map> getSelectInformation(int userId);
 
+
+    /**
+     * 获取该用户的所有历史记录
+     * @param userId
+     * @return 历史记录
+     */
+    List<History> getAllHistory(int userId);
+
+
+    /**
+     * 获取学习课程信息
+     * @param userId 用户编号
+     * @return 课程信息
+     */
+    List<Learning> queryByUserId(int userId);
 }

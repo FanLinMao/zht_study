@@ -93,4 +93,8 @@ public abstract class BaseController {
         }
     }
 
+    protected boolean isCookie(String key){
+        return "".equals(getCookieValue(key));
+    }
+
 }

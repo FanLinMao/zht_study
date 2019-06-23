@@ -2,11 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.cuit.study.dao.PersonalCenterMapper">
 
-    <select id="getUser" resultType="User">
-        select userId,userName,gender,birth,phone from user where userId = #{userId};
+    <select id="getUser" parameterType="int" resultType="User">
+       SELECT
+            userName,
+            gender,
+            birth,
+            phone
+        FROM
+            user
+        where
+            userID = #{userId};
     </select>
 
-    <update id="updateByUser" parameterType="user">
+    <update id="updateByUser" parameterType="User">
         update user set
             userName=#{user.userName},
             gender=#{user.gender},
@@ -15,17 +23,32 @@
     </update>
 
     <select id="getAllCourse" resultType="Course">
-        select * from
-         (select couseId from selectcourses where userId = #{userId}) a,
-          course b where a.couseId = b.courseId;
+        SELECT * FROM
+         (SELECT
+            couseID
+          FROM
+            selectcourses
+          where
+            userID = #{userId}
+          ) a,
+          course b
+         where a.couseID = b.courseID;
     </select>
 
     <select id="findByIdCourse" parameterType="int" resultType="Course">
-        select * from course where courseId = #{courseId};
+        select * from course where courseID = #{courseId};
     </select>
 
     <select id="getSelectInformation" parameterType="int" resultType="map">
-        select * from selectcourses where userId = #{userId};
+        select * from selectcourses where userID = #{userId};
+    </select>
+
+    <select id="getAllHistory" parameterType="int" resultType="History">
+        select * from history where userId = #{userId};
+    </select>
+    
+    <select id="queryByUserId" parameterType="int" resultType="Learning">
+        select * from learning where userId = #{userId};
     </select>
 
 </mapper>

@@ -50,7 +50,7 @@
                                         </el-radio-group>
                                     </el-form-item>
                                     <el-form-item label="生日:" prop="birth">
-                                        <el-date-picker v-model="form.birth" type="date"
+                                        <el-date-picker v-model="form.birth" type="date" :picker-options="pickerOption"
                                                         placeholder="请选择生日"></el-date-picker>
                                     </el-form-item>
                                     <el-form-item label="联系方式:" prop="phone">

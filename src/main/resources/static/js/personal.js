@@ -1,10 +1,13 @@
 axios.defaults.withCredentials = true
+var timeout;
+
 function validatePhone(str) {
     const reg = /^1[3|4|5|7|8][0-9]\d{8}$/
     console.log(reg.test(str))
     return reg.test(str)
 }
-var validPhone=(rule, value,callback)=> {
+
+var validPhone = (rule, value, callback) => {
     if (!value) {
         callback(new Error('请输入电话号码'))
     } else if (!validatePhone(value)) {
@@ -13,7 +16,7 @@ var validPhone=(rule, value,callback)=> {
         callback()
     }
 }
-    new Vue({
+new Vue({
     el: "#personal-container",
     data: function () {
         return {
@@ -28,17 +31,17 @@ var validPhone=(rule, value,callback)=> {
             form: {
                 userName: userName,
                 gender: "男",
-                birth: new Date("2019-06-12"),
-                phone: "12345678911"
+                birth: new Date("2009-06-12"),
+                phone: "1345323232"
             },
             rules: {
                 userName: [
                     {required: true, message: "请输入用户名", trigger: "blur"},
-                    {min:2, max: 10, message: "长度在3到10个字符之间", trigger: "blur"}
+                    {min: 2, max: 10, message: "长度在3到10个字符之间", trigger: "blur"}
                 ],
                 gender: [{required: true, message: "请选择性别", trigger: "blur"}],
                 birth: [{required: true, type: "date", message: "请选择生日", trigger: "blur"}],
-                phone: [{required: true, validator:validPhone ,trigger:"blur"}]
+                phone: [{required: true, validator: validPhone, trigger: "blur"}]
             },
             imageUrl: "",
             dialogVisible: false,
@@ -61,7 +64,7 @@ var validPhone=(rule, value,callback)=> {
                 link: "http://localhost:8080/studycenter/index?courseId=1002",
                 progress: "第二章"
             }, {
-                courseId: "",
+                courseId: "1003",
                 courseName: "java实现权限管理（上）",
                 selectNumber: 54,
                 teacher: "moccer",
@@ -70,7 +73,7 @@ var validPhone=(rule, value,callback)=> {
                 link: "https://www.baidu.com",
                 progress: "第一章"
             }, {
-                courseId: "",
+                courseId: "1004",
                 courseName: "C++远征之多态篇",
                 selectNumber: 32,
                 teacher: "james_yuan",
@@ -79,7 +82,7 @@ var validPhone=(rule, value,callback)=> {
                 link: "https://www.baidu.com",
                 progress: "第二章"
             }, {
-                courseId: "",
+                courseId: "1005",
                 courseName: "C++远征之继承篇",
                 selectNumber: 54,
                 teacher: "james_yuan",
@@ -88,7 +91,7 @@ var validPhone=(rule, value,callback)=> {
                 link: "https://www.baidu.com",
                 progress: "第一章"
             }, {
-                courseId: "",
+                courseId: "1006",
                 courseName: "C++远征之起航篇",
                 selectNumber: 32,
                 teacher: "james_yuan",
@@ -156,30 +159,75 @@ var validPhone=(rule, value,callback)=> {
             historyData: [{
                 courseName: "java实现权限管理（下）",
                 courseId: "001",
-                date: "一个小时前",
+                learnDate: "一个小时前",
                 url: "http://localhost:8080/static/image/java_1_1.jpg",
                 progress: 50
             }, {
                 courseName: "C++远征之模板篇",
                 courseId: "002",
-                date: "30分钟前",
+                learnDate: "30分钟前",
                 url: "http://localhost:8080/static/image/course_c++_1.jpg",
                 progress: 30
             }, {
                 courseName: "java实现权限管理（上）",
                 courseId: "003",
                 url: "http://localhost:8080/static/image/java_1_2.jpg",
-                date: "2019年5月22日",
+                learnDate: "2019年5月22日",
                 progress: 70
             }],
             currentPage: 1,
             pageSize: 5,
             total: 100,
+            pickerOption: {
+                disabledDate(time) {
+                    var ten = 10 * 365 * 24 * 60 * 60 * 1000;
+                    return time.getTime() > Date.now() - ten;
+                }
+            }
         }
     },
     mounted() {
-        this.pageCourse = this.courses.slice(0, 5)
-        this.total = this.courses.length
+        let main = this
+        axios.get("/personal/get/userInform", {
+            params: {
+                userId: userId
+            }
+        }).then(function (response) {
+            console.log(response)
+            if (response.data.success) {
+                main.form.userName = response.data.data.userName
+                main.form.gender = response.data.data.gender
+                main.form.birth = response.data.data.birth
+                main.form.phone = response.data.data.phone
+            }
+        })
+
+        axios.get("/personal/get/History",{
+            params: {
+                userId:userId
+            }
+        }).then(function (response) {
+            console.log(response)
+            if (response.data.success){
+                main.historyData = response.data.data
+
+            }
+        })
+
+        axios.get("/personal/get/Course",{
+            params:{
+                userId:userId
+            }
+        }).then(function (response) {
+            console.log(response)
+            if (response.data.success){
+                main.courses = response.data.data
+                main.pageCourse = main.courses.slice(0, 5)
+                main.total = main.courses.length
+            }
+        })
+
+
     },
     methods: {
         handleSelect(key, keyPath) {
@@ -221,7 +269,26 @@ var validPhone=(rule, value,callback)=> {
         },
         onSubmit(form) {
             this.dialogVisible = false
-            console.log(form)
+            a = this
+            axios.post("/personal/update/userInform",{
+                userID:userId,
+                userName:form.userName,
+                birth:form.birth,
+                phone:form.phone,
+                gender:form.gender
+            }).then(function (response) {
+                if (response.success){
+                    a.$message({
+                        message: "提交成功",
+                        type: "success"
+                    }, 400)
+                } else {
+                    a.$message({
+                        message: "提交失败",
+                        type: "fail"
+                    }, 400)
+                }
+            })
         },
         logout() {
             axios.get("loginout").then(function (response) {
