@@ -69,7 +69,7 @@ public class LoginController extends BaseController {
                         String uuid = user.getUserName() + "-" + user.getUserID();
                         Cookie sessionId = new Cookie("sessionId", uuid);
                         response.addCookie(sessionId);
-                        return "user";
+                        return "redirect:/index.html";
                     } else {
                         model.addAttribute("admin", user);
                         String uuid = user.getUserName() + "-" + user.getUserID();

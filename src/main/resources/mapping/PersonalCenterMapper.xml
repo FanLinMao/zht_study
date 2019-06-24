@@ -20,7 +20,7 @@
             gender=#{gender},
             birth=#{birth},
             phone=#{phone}
-        where userID = #{userId};
+        where userID = #{userID};
     </update>
 
     <select id="getAllCourse" resultType="course">
