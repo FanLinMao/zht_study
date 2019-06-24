@@ -95,7 +95,6 @@
                         <el-row :gutter="20" style="margin-top:20px">
                             <el-col :span="24">
                                 <div style="float: right;margin-top: 5px;margin-bottom: 10px">
-                                    <!--<el-button @click="setCurrent(tableData[1])">选中第二行</el-button>-->
                                     <el-button @click="addCourseFormVisible = true">添加课程</el-button>
                                     <el-dialog title="添加课程" :visible.sync="addCourseFormVisible" center>
                                         <el-form :model="form">
@@ -122,11 +121,10 @@
                                         </div>
                                     </el-dialog>
 
+
                                     <el-button @click="statisticCourseFormVisible= true">统计课程</el-button>
                                     <el-dialog title="课程统计" :visible.sync="statisticCourseFormVisible" center>
-                                        <el-table :data="tableData"
-
-                                                  stripe>
+                                        <el-table :data="tableData" stripe>
                                             <el-table-column
                                                     prop="courseID"
                                                     label="编号"
@@ -189,8 +187,8 @@
                                             label="操作"
                                             width="200">
                                         <template slot-scope="scope">
-                                            <el-button @click="editCourseFormVisible" size="small">编辑</el-button>
-                                            <el-dialog title="编辑课程" :visible.sync="editCourseFormVisible" center>
+                                            <el-button @click="editCourseFormVisible = true" size="small">编辑</el-button>
+                                            <el-dialog title="编辑课程" :visible.sync="editCourseFormVisible" :modal-append-to-body="false" center>
                                                 <el-form :model="form">
                                                     <el-form-item label="课程名称" :label-width="formLabelWidth">
                                                         <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -210,9 +208,7 @@
                                                 </el-form>
                                                 <div slot="footer" class="dialog-footer">
                                                     <el-button @click="editCourseFormVisible = false">取消</el-button>
-                                                    <el-button type="primary" @click="editCourseFormVisible = false">
-                                                        保存
-                                                    </el-button>
+                                                    <el-button type="primary" @click="editCourseFormVisible = false">保存</el-button>
                                                 </div>
                                             </el-dialog>
                                             <el-button @click="delCourse" type="danger" size="small">删除</el-button>
