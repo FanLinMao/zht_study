@@ -155,7 +155,7 @@ new Vue({
                 progress: "第二章"
             }],
             pageCourse: [],
-            learningUrl: "https://search.bilibili.com/all?keyword=",
+            learningUrl: "http://localhost:8080/studycenter/index?courseId=",
             historyData: [{
                 courseName: "java实现权限管理（下）",
                 courseId: "001",
@@ -197,30 +197,30 @@ new Vue({
             if (response.data.success) {
                 main.form.userName = response.data.data.userName
                 main.form.gender = response.data.data.gender
-                main.form.birth = response.data.data.birth
+                main.form.birth = new Date(response.data.data.birth)
                 main.form.phone = response.data.data.phone
             }
         })
 
-        axios.get("/personal/get/History",{
+        axios.get("/personal/get/History", {
             params: {
-                userId:userId
+                userId: userId
             }
         }).then(function (response) {
             console.log(response)
-            if (response.data.success){
+            if (response.data.success) {
                 main.historyData = response.data.data
 
             }
         })
 
-        axios.get("/personal/get/Course",{
-            params:{
-                userId:userId
+        axios.get("/personal/get/Course", {
+            params: {
+                userId: userId
             }
         }).then(function (response) {
             console.log(response)
-            if (response.data.success){
+            if (response.data.success) {
                 main.courses = response.data.data
                 main.pageCourse = main.courses.slice(0, 5)
                 main.total = main.courses.length
@@ -269,15 +269,15 @@ new Vue({
         },
         onSubmit(form) {
             this.dialogVisible = false
+            let param = new URLSearchParams()
+            param.append("userName",form.userName)
+            param.append("birth",form.birth)
+            param.append("phone",form.phone)
+            param.append("gender",form.gender)
+            param.append("userId",userId)
             a = this
-            axios.post("/personal/update/userInform",{
-                userID:userId,
-                userName:form.userName,
-                birth:form.birth,
-                phone:form.phone,
-                gender:form.gender
-            }).then(function (response) {
-                if (response.success){
+            axios.post("/personal/update/userInform",param).then(function (response) {
+                if (response.success) {
                     a.$message({
                         message: "提交成功",
                         type: "success"
