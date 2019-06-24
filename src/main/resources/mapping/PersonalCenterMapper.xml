@@ -14,15 +14,16 @@
             userID = #{userId};
     </select>
 
-    <update id="updateByUser" parameterType="User">
+    <update id="updateByUser" parameterType="user">
         update user set
-            userName=#{user.userName},
-            gender=#{user.gender},
-            birth=#{user.birth},
-            phone=#{user.phone};
+            userName=#{userName},
+            gender=#{gender},
+            birth=#{birth},
+            phone=#{phone}
+        where userID = #{userId};
     </update>
 
-    <select id="getAllCourse" resultType="Course">
+    <select id="getAllCourse" resultType="course">
         SELECT * FROM
          (SELECT
             couseID
@@ -35,7 +36,7 @@
          where a.couseID = b.courseID;
     </select>
 
-    <select id="findByIdCourse" parameterType="int" resultType="Course">
+    <select id="findByIdCourse" parameterType="int" resultType="course">
         select * from course where courseID = #{courseId};
     </select>
 

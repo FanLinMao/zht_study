@@ -26,7 +26,7 @@ public class History {
     /**
      * 观看记录
      */
-    private Date learnDate;
+    private String learnDate;
 
     /**
      * 图片路径
@@ -41,7 +41,7 @@ public class History {
     public History() {
     }
 
-    public History(int courseId, int userId, String courseName, Date learnDate, String url, int progress) {
+    public History(int courseId, int userId, String courseName, String learnDate, String url, int progress) {
         this.courseId = courseId;
         this.userId = userId;
         this.courseName = courseName;
@@ -74,11 +74,11 @@ public class History {
         this.courseName = courseName;
     }
 
-    public Date getLearnDate() {
+    public String getLearnDate() {
         return learnDate;
     }
 
-    public void setLearnDate(Date learnDate) {
+    public void setLearnDate(String learnDate) {
         this.learnDate = learnDate;
     }
 
