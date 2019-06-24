@@ -35,6 +35,7 @@
     <logger name="java.sql.Connection" level="DEBUG"/>
     <logger name="java.sql.Statement" level="DEBUG"/>
     <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    <logger name="cn.edu.cuit.study.dao" level="info"/>
 
  <!--   <logger name="com.start.boot" level="info"/>
     <logger name="org.springframework.*" level="error"/>-->

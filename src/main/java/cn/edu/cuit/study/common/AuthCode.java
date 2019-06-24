@@ -32,6 +32,7 @@ public class AuthCode {
 		for(int i = 0; i < AUTHCODE_LENGTH ; i++){
 			authCode += new Random().nextInt(10);
 		}
+		//System.out.println("11111输出的数字为"+authCode);
 		return authCode;
 	}
 	//生成图片
@@ -52,7 +53,7 @@ public class AuthCode {
 		for(int i = 0; i < authCode.toCharArray().length; i++){
 			c = authCode.charAt(i);
 			g.drawString(c+"", i * (SINGLECODE_WIDTH+SINGLECODE_GAP) + SINGLECODE_GAP/2, IMG_HEIGHT);
-			System.out.println(c);
+			//System.out.println("输出的数字为"+c);
 		}
 		
 		//干扰素  划线

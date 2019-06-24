@@ -22,5 +22,4 @@ public interface LoginMapper {
      * @return
      */
     public int Register(User user);
-
 }
