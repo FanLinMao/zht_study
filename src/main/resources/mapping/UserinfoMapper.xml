@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cuit.study.dao.UserinfoMapper">
+
+
+    <select id="selectUser"  resultType="cn.edu.cuit.study.entity.User">
+        SELECT
+            userID,userName,password,gender,birth,phone,role,head
+        FROM
+            user
+    </select>
+
+    <select id="findUser" resultType="cn.edu.cuit.study.entity.User">
+        SELECT
+            userID,userName,password,gender,birth,phone,role,head
+        FROM
+            user
+        WHERE
+            userID = #{userID}
+    </select>
+
+    <insert id="addUser" parameterType="cn.edu.cuit.study.entity.User">
+        INSERT INTO user (userID,userName,password,gender,birth,phone,role,head)
+        VALUES (#{userID},#{userName},#{password},#{gender},#{birth},#{phone},#{role},#{head})
+    </insert>
+
+    <delete id="deleteUser" parameterType="java.lang.Integer" >
+        DELETE
+        FROM
+            user
+        WHERE
+            userID = #{userID}
+    </delete>
+
+    <update id="updateUser" parameterType="cn.edu.cuit.study.entity.User">
+        UPDATE
+          user
+        SET userName=#{userName},password=#{password},gender=#{gender},birth=#{birth},phone=#{phone},head=#{head}
+        WHERE
+            userID = #{userID}
+    </update>
+
+</mapper>
