@@ -277,7 +277,7 @@ new Vue({
             param.append("userID",userId)
             a = this
             axios.post("/personal/update/userInform",param).then(function (response) {
-                if (response.success) {
+                if (response.data.success) {
                     a.$message({
                         message: "提交成功",
                         type: "success"
