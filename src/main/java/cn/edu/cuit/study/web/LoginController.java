@@ -12,13 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 
 import static cn.edu.cuit.study.constant.RandomCode.RanCode;
 
@@ -31,6 +28,7 @@ public class LoginController extends BaseController {
 
     @Autowired
     private LoginService LoginService;
+    //private String authCode = AuthCode.getAuthCode();
 
     @RequestMapping(value = "/login.html")
     public String login() {
@@ -42,37 +40,46 @@ public class LoginController extends BaseController {
         return "login/userinfo";
     }
 
-
-    @RequestMapping(value = "/verify", method = RequestMethod.POST)
+    @RequestMapping(value = "/loginPage", method = RequestMethod.POST)
     public String login(Model model, HttpServletRequest request, HttpServletResponse response) {
+
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
+        String code = request.getParameter("authcode");
+        /*System.out.println("手机号为"+phone);
+        System.out.println("手机号为"+password);
+        System.out.println("手机号为"+code);*/
         User user;
         user = LoginService.Login2(phone);
-        if (user == null) {
-            model.addAttribute("error", "该账户不存在！！");
+        if(code.equals(1)){
+            model.addAttribute("error2", "验证码错误！！");
+            System.out.println("手机号phone为"+code);
             return "login";
-        } else {
-            if (user.getPassword().equals(password)) {
-                getSession().setAttribute(SessionNames.SESSION_KEY_USER, user.getUserName());
-                if (user.getRole() != 1) {
-                    model.addAttribute("user", user);
-                    String uuid = user.getUserName() + "-" + user.getUserID();
-                    Cookie sessionId = new Cookie("sessionId", uuid );
-                    response.addCookie(sessionId);
-                    return "redirect:/index.html";
-                } else {
-                    model.addAttribute("admin", user);
-                    String uuid = user.getUserName() + "-" + user.getUserID();
-                    Cookie sessionId = new Cookie("sessionId", uuid );
-                    Cookie userId = new Cookie(SessionNames.SESSION_KEY_USER, String.valueOf(user.getUserID()));
-                    response.addCookie(sessionId);
-                    response.addCookie(userId);
-                    return "manager/profile";
-                }
-            } else {
-                model.addAttribute("error1", "密码错误!");
+        }else {
+            if (user == null) {
+                model.addAttribute("error", "该账户不存在！！");
+                System.out.println("手机号passcvf为"+code);
                 return "login";
+            } else {
+                if (user.getPassword().equals(password)) {
+                    getSession().setAttribute(SessionNames.SESSION_KEY_USER, user);
+                    if (user.getRole() != 1) {
+                        model.addAttribute("user", user);
+                        String uuid = user.getUserName() + "-" + user.getUserID();
+                        Cookie sessionId = new Cookie("sessionId", uuid);
+                        response.addCookie(sessionId);
+                        return "user";
+                    } else {
+                        model.addAttribute("admin", user);
+                        String uuid = user.getUserName() + "-" + user.getUserID();
+                        Cookie sessionId = new Cookie("sessionId", uuid);
+                        response.addCookie(sessionId);
+                        return "login/userinfo";
+                    }
+                } else {
+                    model.addAttribute("error1", "密码错误!");
+                    return "login";
+                }
             }
         }
     }
@@ -103,16 +110,10 @@ public class LoginController extends BaseController {
         }
     }
 
-    @RequestMapping("/loginout")
-    public String loginout(){
-        removeCookies();
-        getSession().removeAttribute(SessionNames.SESSION_KEY_USER);
-        return "redirect:/login.html";
-    }
-
     @RequestMapping("/getAuthCode")
     public void getAuthCode() {
-        BufferedImage bufferedImage = AuthCode.getAuthImg(AuthCode.getAuthCode());
+        String authCode = AuthCode.getAuthCode();
+        BufferedImage bufferedImage = AuthCode.getAuthImg(authCode);
         try {
             ImageIO.write(bufferedImage, "JPEG", getResponse().getOutputStream());
         } catch (Exception e) {

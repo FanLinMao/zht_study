@@ -20,10 +20,11 @@ public class LoginServiceImpl implements LoginService{
     private LoginMapper LoginMappe;
 
     @Override
+    /*用户登录*/
     public User Login2(String phone) {
         return LoginMappe.Login2(phone);
     }
-
+    /*用户注册*/
     public boolean Register(User user){
         int result =  LoginMappe.Register(user);
         return result > 0;
