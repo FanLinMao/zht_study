@@ -8,6 +8,7 @@ import cn.edu.cuit.study.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -90,6 +91,17 @@ public class LoginController extends BaseController {
         return "register";
     }
 
+    /**
+     * 登出，不要再改了
+     * @return
+     */
+    @RequestMapping("/loginout")
+    public String loginout(){
+        getSession().removeAttribute(SessionNames.SESSION_KEY_USER);
+        removeCookies();
+        return "redirect:/index.html";
+    }
+
     @RequestMapping(value = "/addregister", method = RequestMethod.POST)
     public String register(Model model, HttpServletRequest request) {
         User user = new User();
@@ -104,14 +116,15 @@ public class LoginController extends BaseController {
         Boolean result = LoginService.Register(user);
         if (result.equals(true)) {
             model.addAttribute("user", user);
-            return "login/user";
+            //不用管，它会自动拦截到登陆页面
+            return "redirect:/index.html";
         } else {
             model.addAttribute("adderror", "注册失败");
             return "register";
         }
     }
 
-    @RequestMapping("/getAuthCode")
+    @GetMapping("/getAuthCode")
     public void getAuthCode() {
         String authCode = AuthCode.getAuthCode();
         BufferedImage bufferedImage = AuthCode.getAuthImg(authCode);
