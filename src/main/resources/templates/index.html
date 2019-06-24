@@ -89,7 +89,7 @@
 
 
 
-                    <div th:each="course:${courses}" style="background-color:#F4F4F4;width:30.5%;height:70px;margin:5px;padding:5px;float:left; cursor: pointer;">
+                    <div th:each="course:${courses}" style="background-color:#F4F4F4;width:30.5%;height:200px;margin:5px;padding:5px;float:left; cursor: pointer;">
                         <!--<input type="hidden" th:name="${course.courseID}" th:value="${course.courseID}">-->
                         <a th:href="@{'/studycenter/index?courseId='+ ${course.courseID} }" target="_blank"><div style="height:25px;" th:text="${course.courseName}"></div></a>
 
