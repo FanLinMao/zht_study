@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.8.2/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/static/css/personal.css">
+    <title>智慧通在线学习系统-后台管理模块</title>
+</head>
+<body>
+<div id="personal-container">
+    <input id="userId" type="hidden" th:value="${userID}"/>
+    <input id="userName" type="hidden" th:value="${userName}"/>
+    <el-container>
+        <el-header>
+            <el-menu
+                    :default-active="activeIndex2"
+                    class="el-menu-demo"
+                    mode="horizontal"
+                    @select="handleSelect"
+                    active-text-color="#ffd04b">
+                <el-menu-item index="1">后台管理</el-menu-item>
+                <el-submenu index="2" style="padding: 0;float: right;">
+                    <template slot="title"><span th:text="${userName}">管理员</span></template>
+                    <el-menu-item index="2-1">
+                        <el-button small @click="logout">logout</el-button>
+                    </el-menu-item>
+                    <el-menu-item index="2-2"></el-menu-item>
+                </el-submenu>
+
+                <el-menu-item index="3" style="padding: 0;float: right;">
+                    <img class="headPortrait" :src="headUrl"/>
+                </el-menu-item>
+            </el-menu>
+        </el-header>
+        <el-main style="margin-top: 10px;">
+            <template>
+                <el-tabs v-model="activeName" @tab-click="handleClick">
+                    <el-tab-pane label="用户基本信息" name="1">
+                        <el-row :gutter="20">
+                            <el-col :span="12">
+                                <el-form ref="form" :model="form" :rules="rules" label-position="top"
+                                         label-width="80px">
+                                    <el-form-item label="姓名:" prop="userName">
+                                        <el-input v-model="form.userName" th:value="${userName}">王五</el-input>
+                                    </el-form-item>
+                                    <el-form-item label="性别:" prop="gender">
+                                        <el-radio-group v-model="form.gender" th:value="${gender}">
+                                            <el-radio :label="man">男</el-radio>
+                                            <el-radio :label="woman">女</el-radio>
+                                        </el-radio-group>
+                                    </el-form-item>
+                                    <el-form-item label="生日:" prop="birth">
+                                        <el-date-picker v-model="form.birth" type="date"
+                                                        th:value="birth"
+                                                        placeholder="请选择生日"></el-date-picker>
+                                    </el-form-item>
+                                    <el-form-item label="联系方式:" prop="phone">
+                                        <el-input v-model.number="form.phone" clearable th:value="${phone}">111111111
+                                        </el-input>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-button type="primary" @click="checkValidate('form')">提交</el-button>
+                                        <el-dialog
+                                                title="提示"
+                                                :visible.sync="dialogVisible"
+                                                width="30%"
+                                                :before-close="handleClose">
+                                            <span>确认修改</span>
+                                            <span slot="footer">
+                                            <el-button @click="dialogVisible = false">取消</el-button>
+                                            <el-button @click="onSubmit(form)" type="primary">确认</el-button>
+                                        </span>
+                                        </el-dialog>
+                                    </el-form-item>
+                                </el-form>
+                            </el-col>
+                            <el-col :span="6">
+                                <span>用户头像</span>
+                                <el-upload
+                                        class="avatar-uploader"
+                                        action=""
+                                        :show-file-list="false"
+                                        :on-success="handleAvatarSuccess"
+                                        :before-upload="beforeAvatarUpload"
+                                        style="margin-top: 20px;">
+                                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                </el-upload>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="课程管理" name="2">
+                        <el-row :gutter="20" style="margin-top:20px">
+                            <el-col :span="24">
+                                <div style="float: right;margin-top: 5px;margin-bottom: 10px">
+                                    <!--<el-button @click="setCurrent(tableData[1])">选中第二行</el-button>-->
+                                    <el-button @click="addCourseFormVisible = true">添加课程</el-button>
+                                    <el-dialog title="添加课程" :visible.sync="addCourseFormVisible" center>
+                                        <el-form :model="form">
+                                            <el-form-item label="课程名称" :label-width="formLabelWidth">
+                                                <el-input v-model="form.name" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="课程内容" :label-width="formLabelWidth">
+                                                <el-input v-model="form.content" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="讲师" :label-width="formLabelWidth">
+                                                <el-input v-model="form.teacher" autocomplete="off"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="选课人数" :label-width="formLabelWidth">
+                                                <el-input-number
+                                                        v-model="form.selectNum"
+                                                        :min="1"
+                                                        :max="500"></el-input-number>
+                                            </el-form-item>
+                                        </el-form>
+                                        <div slot="footer" class="dialog-footer">
+                                            <el-button @click="addCourseFormVisible = false">取消</el-button>
+                                            <el-button type="primary" @click="addCourseFormVisible = false">添加
+                                            </el-button>
+                                        </div>
+                                    </el-dialog>
+
+                                    <el-button @click="statisticCourseFormVisible= true">统计课程</el-button>
+                                    <el-dialog title="课程统计" :visible.sync="statisticCourseFormVisible" center>
+                                        <el-table :data="tableData"
+
+                                                  stripe>
+                                            <el-table-column
+                                                    prop="courseID"
+                                                    label="编号"
+                                                    width="100">
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="courseName"
+                                                    label="课程名称"
+                                                    width="200">
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="teacher"
+                                                    label="讲师"
+                                                    width="100">
+                                            </el-table-column>
+                                            <el-table-column
+                                                    prop="selectNum"
+                                                    label="选课人数"
+                                                    width="100">
+                                            </el-table-column>
+                                        </el-table>
+                                        <div slot="footer" class="dialog-footer">
+                                            <el-button type="primary" @click="statisticCourseFormVisible = false">关闭
+                                            </el-button>
+                                        </div>
+                                    </el-dialog>
+
+
+                                </div>
+                                <el-table :data="tableData"
+                                          stripe
+                                          style="width: 100%">
+                                    <el-table-column
+                                            prop="courseID"
+                                            label="编号"
+                                            width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="courseName"
+                                            label="课程名称"
+                                            width="180">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="content"
+                                            label="课程内容"
+                                            width="580">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="teacher"
+                                            label="讲师"
+                                            width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="updatedate"
+                                            label="更新时间"
+                                            width="100">
+                                    </el-table-column>
+                                    <el-table-column
+                                            fixed="right"
+                                            label="操作"
+                                            width="200">
+                                        <template slot-scope="scope">
+                                            <el-button @click="editCourseFormVisible" size="small">编辑</el-button>
+                                            <el-dialog title="编辑课程" :visible.sync="editCourseFormVisible" center>
+                                                <el-form :model="form">
+                                                    <el-form-item label="课程名称" :label-width="formLabelWidth">
+                                                        <el-input v-model="form.name" autocomplete="off"></el-input>
+                                                    </el-form-item>
+                                                    <el-form-item label="课程内容" :label-width="formLabelWidth">
+                                                        <el-input v-model="form.content" autocomplete="off"></el-input>
+                                                    </el-form-item>
+                                                    <el-form-item label="讲师" :label-width="formLabelWidth">
+                                                        <el-input v-model="form.teacher" autocomplete="off"></el-input>
+                                                    </el-form-item>
+                                                    <el-form-item label="选课人数" :label-width="formLabelWidth">
+                                                        <el-input-number
+                                                                v-model="form.selectNum"
+                                                                :min="1"
+                                                                :max="500"></el-input-number>
+                                                    </el-form-item>
+                                                </el-form>
+                                                <div slot="footer" class="dialog-footer">
+                                                    <el-button @click="editCourseFormVisible = false">取消</el-button>
+                                                    <el-button type="primary" @click="editCourseFormVisible = false">
+                                                        保存
+                                                    </el-button>
+                                                </div>
+                                            </el-dialog>
+                                            <el-button @click="delCourse" type="danger" size="small">删除</el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </el-col>
+                            <el-col :span="2">
+                                <!--<h3>{{ course.courseName }} <span class="link el-icon-reading">当前学习进度{{ course.progress }}</span>-->
+                                <!--</h3>-->
+                                <!--<div>-->
+                                <!--<h4>老师:{{ course.teacher}}</h4>-->
+                                <!--<p>{{ course.content }}</p>-->
+                                <!--</div>-->
+                            </el-col>
+                        </el-row>
+                        <el-pagination
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage"
+                                :page-size="pageSize"
+                                layout="prev, pager, next, jumper"
+                                :total="total">
+                        </el-pagination>
+                    </el-tab-pane>
+
+                    <!--<el-tab-pane label="历史记录" name="3">-->
+                    <!--<template>-->
+                    <!--<el-table-->
+                    <!--:data="historyData"-->
+                    <!--border>-->
+                    <!--<el-table-column-->
+                    <!--label="课程名"-->
+                    <!--align="center"-->
+                    <!--padding="0"-->
+                    <!--:show-overflow-tooltip="true"-->
+                    <!--width="300">-->
+                    <!--<template slot-scope="scope">-->
+                    <!--<el-card :body-style="{ padding: '0px'}">-->
+                    <!--<img :src="scope.row.url" class="image">-->
+                    <!--</el-card>-->
+                    <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--<el-table-column-->
+                    <!--label="学习进度"-->
+                    <!--width="400">-->
+                    <!--<template slot-scope="scope">-->
+                    <!--<el-progress :text-inside="true" :stroke-width="18"-->
+                    <!--:percentage="scope.row.progress"></el-progress>-->
+                    <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--<el-table-column-->
+                    <!--label="历史"-->
+                    <!--width="200"-->
+                    <!--prop="date"></el-table-column>-->
+                    <!--<el-table-column-->
+                    <!--label="操作"-->
+                    <!--width="300">-->
+                    <!--<template slot-scope="scope">-->
+                    <!--<el-link :href="learningUrl + scope.row.courseId" type="primary">继续学习</el-link>-->
+                    <!--</template>-->
+                    <!--</el-table-column>-->
+                    <!--</el-table>-->
+                    <!--</template>-->
+                    <!--</el-tab-pane>-->
+
+                </el-tabs>
+                </el-tab-pane>
+                </el-tabs>
+            </template>
+        </el-main>
+    </el-container>
+</div>
+
+</body>
+<script src="https://unpkg.com/vue@2.6.0/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui@2.8.2/lib/index.js"></script>
+<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+<script th:inline="javascript">
+    var userID = [[${userID}]];
+    console.log(userID)
+    var userName = [[${userName}]];
+    console.log(userName)
+</script>
+<script src="/static/js/manager.js"></script>
+</html>
