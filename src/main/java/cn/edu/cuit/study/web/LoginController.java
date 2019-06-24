@@ -68,7 +68,7 @@ public class LoginController extends BaseController {
                     Cookie userId = new Cookie(SessionNames.SESSION_KEY_USER, String.valueOf(user.getUserID()));
                     response.addCookie(sessionId);
                     response.addCookie(userId);
-                    return "manager/profile";
+                    return "redirect:/manager/profile";
                 }
             } else {
                 model.addAttribute("error1", "密码错误!");
