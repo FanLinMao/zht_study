@@ -274,7 +274,7 @@ new Vue({
             param.append("birth",form.birth)
             param.append("phone",form.phone)
             param.append("gender",form.gender)
-            param.append("userId",userId)
+            param.append("userID",userId)
             a = this
             axios.post("/personal/update/userInform",param).then(function (response) {
                 if (response.success) {
