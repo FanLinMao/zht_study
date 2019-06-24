@@ -35,6 +35,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/login.html")
     public String login() {
         return "login";
+
     }
 
     @RequestMapping(value = "/houtai")
