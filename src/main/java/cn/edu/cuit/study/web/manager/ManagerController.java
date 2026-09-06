@@ -1,6 +1,7 @@
 package cn.edu.cuit.study.web.manager;
 
 import cn.edu.cuit.study.common.BaseController;
+import cn.edu.cuit.study.dto.Result;
 import cn.edu.cuit.study.entity.Course;
 import cn.edu.cuit.study.entity.User;
 import cn.edu.cuit.study.service.impl.CourseManageService;
@@ -61,6 +62,17 @@ public class ManagerController extends BaseController {
     public boolean updatePersonalProfile(@RequestBody User user) {
         String userId = getCookieValue(SESSION_KEY_USER);
         return userId.equals(user.getUserID()) && managerService.updateManagerProfile(user);
+    }
+
+    /**
+     * 管理员登出
+     */
+    @GetMapping("/loginout")
+    @ResponseBody
+    public Result<Boolean> loginout() {
+        getSession().removeAttribute(SESSION_KEY_USER);
+        removeCookies();
+        return new Result<>(true, Boolean.TRUE);
     }
 
 

@@ -58,7 +58,7 @@ public interface StudyCenterService {
     public boolean addCourseNote(int courseId, int userId, String note) throws Exception;
 
     /**
-     * 插入 当前用户对选择课程的评论
+     * 新增或更新当前用户对所选课程的评论
      * @param courseId
      * @param userId
      * @param content

@@ -65,7 +65,7 @@ public interface StudyCenterMapper {
     public int getSelectCourseNumByCourseId(int courseId);
 
     /**
-     * 根据用户ID和课程ID，添加用户选择课程的评论
+     * 根据用户ID和课程ID，新增或更新用户对课程的评论
      * @param courseId
      * @param userId
      * @param content

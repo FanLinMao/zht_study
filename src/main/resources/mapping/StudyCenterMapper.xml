@@ -90,6 +90,9 @@
     <insert id="addCourseCommentByCourseIdAndUserId">
         INSERT INTO review(courseid, userid, review, reviewtime)
         VALUES (#{courseId}, #{userId}, #{content}, #{date})
+        ON DUPLICATE KEY UPDATE
+            review = VALUES(review),
+            reviewtime = VALUES(reviewtime)
     </insert>
 
     <update id="addCourseNoteByCourseIdAndUserId">

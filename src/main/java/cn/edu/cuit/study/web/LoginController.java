@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -125,11 +126,15 @@ public class LoginController extends BaseController {
     }
 
     @GetMapping("/getAuthCode")
+    @ResponseBody
     public void getAuthCode() {
         String authCode = AuthCode.getAuthCode();
         BufferedImage bufferedImage = AuthCode.getAuthImg(authCode);
         try {
-            ImageIO.write(bufferedImage, "JPEG", getResponse().getOutputStream());
+            HttpServletResponse response = getResponse();
+            response.setContentType("image/jpeg");
+            response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+            ImageIO.write(bufferedImage, "JPEG", response.getOutputStream());
         } catch (Exception e) {
             e.printStackTrace();
         }

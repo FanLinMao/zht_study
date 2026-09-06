@@ -140,9 +140,9 @@ new Vue({
             console.log(form)
         },
         logout() {
-            axios.get("loginout").then(function (response) {
-                if (response.success === true) {
-                    document.cookie = "sessionId" + "=" + "";
+            axios.get("/manager/loginout").then(function (response) {
+                if (response.data && response.data.success === true) {
+                    window.location.href = "/login.html";
                 }
             })
         },

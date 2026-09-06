@@ -181,6 +181,7 @@ public class StudyCenterController extends BaseController {
      * @throws IOException
      */
     @RequestMapping("/download")
+    @ResponseBody
     public void download (HttpServletResponse response, String result) throws
             IOException {
 
